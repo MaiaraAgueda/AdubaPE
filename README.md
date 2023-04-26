@@ -1,9 +1,5 @@
 # AdubaPE
-O objetivo desta Iniciação Científica, financiada pelo IFPE Recife sob orientação da professora Vânia Soares de Carvalho, foi desenvolver um aplicativo em baixo código utilizando a ferramenta Experience Builder do ArcGIS para ser utilizado por agricultores de Pernambuco nas práticas de adubação e calagem 
-
-A adubação e a calagem do solo são práticas indispensáveis para o sucesso da agricultura. A calagem corresponde à incorporação de calcário ao solo para correção da acidez, aumentando a disponibilidade dos nutrientes que são incorporados via adubação.
-
-De posse dos dados da análise do solo, o agricultor define a cultura a ser plantada e entra com os dados analíticos no aplicativo, obtendo a indicação da adubação e correção do solo. Isso facilita as práticas agrícolas corretas em áreas sem suporte técnico, diminuindo o aporte exagerado de fertilizantes e corretivos, assim como custos, e contribuindo para uma agricultura mais sustentável. A ferramenta utilizada se mostrou eficiente para a criação do aplicativo.
+O objetivo desta pesquisa financiada pelo IFPE Recife e orientada pela professora Vânia Soares de Carvalho foi desenvolver um aplicativo de baixo código utilizando a ferramenta Experience Builder do ArcGIS para ser usado por agricultores em Pernambuco nas práticas de adubação e calagem. Com os dados da análise do solo, o agricultor insere no aplicativo e obtém a indicação da adubação e correção do solo, facilitando as práticas agrícolas corretas em áreas sem suporte técnico e contribuindo para uma agricultura mais sustentável. A ferramenta utilizada foi eficiente para a criação do aplicativo.
 
 
 #Termos de Uso
