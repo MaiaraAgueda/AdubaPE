@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recomendação de calagem e adubação da Goiaba Irrigada</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
+    <style>
+        #calcBotao {
+            font-size: large;
+            text-align: center;
+
+        }
+
+        #calagem {
+            text-align: center;
+            font-size: x-large;
+            color: white;
+            background-color: rgb(22, 211, 22);
+
+        }
+
+        #calcario {
+            text-align: center;
+            font-size: larger;
+        }
+
+        #botoes,
+        #PDF {
+            text-align: center;
+        }
+
+        #TituloOpcoes {
+            text-align: center;
+        }
+
+        #tituloFosforo,
+        #tituloPotássio,
+        #tituloNitro {
+            text-align: center;
+            font-size: x-large;
+            color: white;
+            background-color: rgb(22, 211, 22);
+
+        }
+
+
+        #teores {
+            text-align: center;
+            font-size: larger;
+        }
+    </style>
+</head>
+<html>
+
+<body>
+    <h1>Recomendação de calagem e adubação</h1>
+    <form>
+        <label for="aluminio">Teor de alumínio (cmolc/dm³):</label>
+        <input type="number" id="aluminio" name="aluminio" step="0.01" required><br>
+        <br>
+
+        <label for="calcio">Teor de cálcio (cmolc/dm³):</label>
+        <input type="number" id="calcio" name="calcio" step="0.01" required><br>
+        <br>
+        <label for="magnesio">Teor de magnésio (cmolc/dm³):</label>
+        <input type="number" id="magnesio" name="magnesio" step="0.01" required><br>
+        <br>
+        <label for="argila">Percentagem de argila (%):</label>
+        <input type="number" id="argila" name="argila" step="0.01" required><br>
+        <br>
+        <label for="prnt">PRNT do calcário:</label>
+        <input type="number" id="prnt" name="prnt" step="0.01" required><br>
+        <br>
+        <label for="p">Teor de fósforo (mg/dm³):</label>
+        <input type="number" id="p" name="p" step="0.01" required><br>
+        <br>
+        <label for="k">Teor de potássio (cmolc/dm³):</label>
+        <input type="number" id="k" name="k" step="0.01" required><br>
+
+        <h1>Escolha o espaçamento: <span id="numPlantas"></span></h1>
+        <label>
+            <input type="radio" name="opcao" value="333"> 6 x 5 m
+        </label>
+        <label>
+            <input type="radio" name="opcao" value="277"> 6 x 6 m
+        </label>
+        <label>
+            <input type="radio" name="opcao" value="500"> 5 x 4 m
+        </label>
+        <label>
+            <input type="radio" name="opcao" value="625"> 4 x 4 m
+        </label>
+        <br> <br>
+
+        <br>
+        <div style="display: flex; justify-content: center; align-items: center; ">
+            <button id="calcBotao" type="button" onclick="calcularEArmazenar()">Calcular</button>
+        </div>
+
+
+    </form>
+
+    <div id="meuTexto">
+
+        <p id="calagem">Calagem</p>
+        <p id="calcario"><span id="calcario"></span></p><br>
+
+        <p id="tituloNitro">Nitrogênio </p>
+        <p id="teores">Pantio <br> <span id="nitroPlantio"></span></p>
+        <p id="teores">Crescimento<br><span id="nitroCresc"></span></p>
+        <p id="teores">1° ano<br><span id="nitro2"></span></p>
+        <p id="teores">2° ano <br><span id="nitro3"></span></p>
+        <p id="teores">3° ano em diante<br><span id="nitro4"></span></p>
+
+        <p id="tituloFosforo">Fósforo </p>
+        <p id="teores">Pantio <br> <span id="pPlantio"></span></p>
+        <p id="teores">Crescimento<br><span id="pCresc"></span></p>
+        <p id="teores">1° ano<br><span id="p2"></span></p>
+        <p id="teores">2° ano <br><span id="p3"></span></p>
+        <p id="teores">3° ano em diante<br><span id="p4"></span></p>
+
+        <p id="tituloPotássio">Potássio </p>
+        <p id="teores">Pantio <br> <span id="kPlantio"></span></p>
+        <p id="teores">Crescimento<br><span id="kCresc"></span></p>
+        <p id="teores">1° ano<br><span id="k2"></span></p>
+        <p id="teores">2° ano <br><span id="k3"></span></p>
+        <p id="teores">3° ano em diante<br><span id="k4"></span></p>
+    </div>
+    <br>
+
+    <div id="botoes">
+        <fieldset>
+            <h5 id="TituloOpcoes">Deseja Copiar o Conteúdo?</h5>
+            <button onclick="copiarTexto()">Copiar texto</button>
+            <h5 id="TituloOpcoes">Deseja gerar o PDF? *</h5>
+            <button id="PDF" onclick="gerarPDF()">Gerar PDF</button>
+            <h6> ** Opção disponivel nos navegadores Edge, Firefox e Safari</h6>
+        </fieldset>
+    </div>
+    <script>
+
+        function calcularEArmazenar() {
+            calcular();
+            armazenarValor();
+        }
+
+        function calcular() {
+            // obter valores dos campos de entrada
+            const aluminio = parseFloat(document.getElementById('aluminio').value);
+            const calcio = parseFloat(document.getElementById('calcio').value);
+            const magnesio = parseFloat(document.getElementById('magnesio').value);
+            const argila = parseFloat(document.getElementById('argila').value);
+            const prnt = parseFloat(document.getElementById('prnt').value);
+            const p = parseFloat(document.getElementById('p').value);
+            const k = parseFloat(document.getElementById('k').value);
+
+            const calagem = 2 * aluminio + (3 - (calcio + magnesio));
+
+            const calcario_necessario = (100 / prnt) * calagem;
+
+            // exibir resultado da Calagem
+            document.getElementById('calcario').innerHTML = calcario_necessario.toFixed(2) + " T/ha";
+
+            // Dados recomendação de nitrogênio
+            const nPlantio = 0;
+            const nCrescimento = 100;
+            const n1 = 150;
+            const n2 = 200;
+            const n3 = 250;
+
+
+            // Exibir recomendação de nitrogênio
+            document.getElementById('nitroPlantio').innerHTML = nPlantio + " kg/ha";
+            document.getElementById('nitroCresc').innerHTML = nCrescimento + " kg/ha";
+            document.getElementById('nitro2').innerHTML = n1 + " kg/ha";
+            document.getElementById('nitro3').innerHTML = n2 + " kg/ha";
+            document.getElementById('nitro4').innerHTML = n3 + " kg/ha";
+
+
+            // Dados recomendação de fosforo
+            let msgPlan = ""; //plantio
+            let msgCresc = ""; //crescimento
+            let msg1 = ""; // 1 ano
+            let msg2 = ""; // 2 ano
+            let msg3 = ""; // 3 ano
+
+            if (p < 11) {
+                msgPlan = "100";
+                msgCresc = "0";
+                msg1 = "90";
+                msg2 = "100";
+                msg3 = "100";
+            } else if (p >= 11 && p <= 20) {
+                msgPlan = "80";
+                msgCresc = "0";
+                msg1 = "70";
+                msg2 = "90";
+                msg3 = "90";
+            } else if (p >= 21 && p <= 40) {
+                msgPlan = "60";
+                msgCresc = "0";
+                msg1 = "50";
+                msg2 = "70";
+                msg3 = "80";
+            }
+            // Exibir recomendação de fósforo
+            document.getElementById('pPlantio').innerHTML = msgPlan + " kg/ha";
+            document.getElementById('pCresc').innerHTML = msgCresc + " kg/ha";
+            document.getElementById('p2').innerHTML = msg1 + " kg/ha";
+            document.getElementById('p3').innerHTML = msg2 + " kg/ha";
+            document.getElementById('p4').innerHTML = msg3 + " kg/ha";
+
+
+          // Dados recomendação de Potássio
+            let kPlan = "";
+            let kCresc = "";
+            let k1 = "";
+            let k2 = "";
+            let k3 = "";
+
+
+            if (k < 0.12) {
+                kPlan = "60";
+                kCresc = "90";
+                k1 = "120";
+                k2 = "180";
+                k3 = "210";
+
+            } else if (k >= 0.12 && k <= 0.23) {
+                kPlan = "40";
+                kCresc = "60";
+                k1 = "90";
+                k2 = "135";
+                k3 = "150";
+            } else if (k >= 0.24 && k <= 0.40) {
+                kPlan = "20";
+                kCresc = "30";
+                k1 = "60";
+                k2 = "90";
+                k3 = "120";
+            } else if (k > 0.40) {
+                kPlan = "0";
+                kCresc = "0";
+                k1 = "30";
+                k2 = "60";
+                k3 = "90";
+            }
+
+            // Exibir recomendação de Potássio
+            document.getElementById('kPlantio').innerHTML = kPlan + " kg/ha";
+            document.getElementById('kCresc').innerHTML = kCresc + " kg/ha";
+            document.getElementById('k2').innerHTML = k1 + " kg/ha";
+            document.getElementById('k3').innerHTML = k2 + " kg/ha";
+            document.getElementById('k4').innerHTML = k3 + " kg/ha";
+
+
+        }
+
+        function armazenarValor() {
+            // Obtém o valor selecionado pelo usuário
+            var opcaoSelecionada = document.querySelector('input[name="opcao"]:checked').value;
+
+            // Armazena o valor em uma variável ou faz qualquer outra ação necessária
+            document.getElementById('numPlantas').innerHTML = opcaoSelecionada + " pl/ha";
+        }
+
+        function gerarPDF() {
+            // Cria um novo objeto jsPDF
+            const doc = new jsPDF();
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(16);
+            doc.setTextColor("#333333");
+
+
+            var textoHTML = document.getElementById("meuTexto").innerText;
+            doc.text(textoHTML, 10, 10);
+
+
+
+            // Adiciona um texto ao documento PDF
+            //	doc.text("Meu primeiro arquivo PDF gerado com jsPDF", 10, 10);
+
+            // Salva o arquivo PDF
+            doc.save("arquivo.pdf");
+        }
+
+        function copiarTexto() {
+            // seleciona o elemento que contém o texto a ser copiado
+            const elemento = document.getElementById("meuTexto");
+
+            // cria um range de seleção para o conteúdo do elemento
+            const range = document.createRange();
+            range.selectNodeContents(elemento);
+
+            // seleciona o conteúdo do range
+            const selecao = window.getSelection();
+            selecao.removeAllRanges();
+            selecao.addRange(range);
+
+            // copia o texto selecionado para a área de transferência
+            document.execCommand("copy");
+
+            // limpa a seleção
+            selecao.removeAllRanges();
+
+            // exibe uma mensagem de confirmação
+            alert("O texto foi copiado para a área de transferência!");
+        }
+
+
+
+
+    </script>
+
+</body>
+
+</html>
