@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor</title>
+    <style>
+        .div-escondida {
+            display: none;
+        }
+
+        .form-container {
+            display: flex;
+            justify-content: center;
+            margin: 0 auto;
+            max-width: 500px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        .texto {
+            text-align: center;
+        }
+
+        input[type="number"] {
+
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 8px 0 8px 0;
+            display: flex;
+            width: 100px;
+            margin: center;
+            font-size: 16px;
+            justify-content: center;
+            margin: 0 auto;
+            max-width: 500px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        #calcBotao{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100px; /* Defina a largura desejada */
+            height: 30px;
+            font-size:  17px;
+            justify-content: center;
+            margin: 0 auto;
+            margin-top: 0px;
+        }
+    </style>
+</head>
+
+
+<body>
+    <h1>Conversão de unidades</h1>
+    <h3>Selecione a conversão que você quer fazer:</h3>
+    <label>
+        <input type="radio" name="opcao" value="1" onchange="mostrarDiv() "> g/plantas para kg/ha
+    </label>
+    <label>
+        <input type="radio" name="opcao" value="2" onchange="mostrarDiv()"> kg/ha para g/plantas
+    </label> <br><br>
+
+
+    <h3>Insira os valores:</h3>
+
+
+    <div class="form-container">
+        <form>
+            <div id="gParaKg" class="div-escondida">
+                <div id="texto" class="texto">
+                    <label for="gramas">g/plantas:</label>
+                    <input type="number" id="gramas" name="gramas" step="0.01" required class="input-size"><br><br>
+
+                    <label for="plantas">Plantas por hectare:</label>
+                    <input type="number" id="plantas" name="plantas" step="0.01" required class="input-size"><br><br>
+                </div>
+
+                <div id="botoes">
+                    <button id="calcBotao" type="button" onclick="decisao()">Calcular</button>
+                </div>
+                <p id="teores"> <span id="resultadoKG"></span></p>
+            </div>
+
+            <div id="KgParaG" class="div-escondida">
+
+
+                <div id="texto" class="texto">
+                    <label for="kilo">kg/ha:</label>
+                    <input type="number" id="kilo" name="kilo" step="0.01" required class="input-size"><br><br>
+
+
+                    <label for="plantas">Plantas por hectare:</label>
+                    <input type="number" id="plantas" name="plantas" step="0.01" required class="input-size"><br><br>
+                </div>
+
+
+                <div id="botoes">
+                    <button id="calcBotao" type="button" onclick="decisao()">Calcular</button>
+                </div>
+                <p id="teores"> <span id="resultadoG"></span></p>
+
+            </div>
+        </form>
+    </div>
+
+
+
+    <script>
+
+        function mostrarDiv() {
+            var opcaoSelecionada = document.querySelector('input[name="opcao"]:checked').value;
+            var div1 = document.getElementById('gParaKg');
+            var div2 = document.getElementById('KgParaG');
+
+
+            // Esconder todas as divs
+            div1.style.display = 'none';
+            div2.style.display = 'none';
+
+
+            // Mostrar a div correspondente à opção selecionada
+            if (opcaoSelecionada === '1') {
+                div1.style.display = 'block';
+            } else if (opcaoSelecionada === '2') {
+                div2.style.display = 'block';
+            }
+        }
+
+
+        function decisao() {
+            // Obtém o valor selecionado pelo usuário
+            var opcaoSelecionada = document.querySelector('input[name="opcao"]:checked').value;
+
+
+            if (opcaoSelecionada === "1") {
+                converterGramaParaKg();
+            } else if (opcaoSelecionada === "2") {
+                converterKgParaGrama();
+            }
+        }
+
+
+        // Função para converter g/planta para kg/ha
+        function converterGramaParaKg() {
+            const gramas = parseFloat(document.getElementById('gramas').value);
+            const plantasPorHectar = parseFloat(document.getElementById('plantas').value);
+
+
+            // Conversão: g/planta para kg/ha
+            var quilogramasPorHectare = (gramas * plantasPorHectar) / 1000;
+
+
+            document.getElementById('resultadoKG').innerHTML = "Resultado: " + quilogramasPorHectare.toFixed(1) + " kg/ha";
+        }
+
+
+        // Função para converter kg/ha para g/planta
+        function converterKgParaGrama() {
+            const kilogramas = parseFloat(document.getElementById('kilo').value);
+            const plantasPorHectar = parseFloat(document.getElementById('plantas').value);
+
+
+            var gramasPorPlanta = (kilogramas * 1000) / plantasPorHectar;
+
+
+            document.getElementById('resultadoG').innerHTML = "Resultado: " + gramasPorPlanta.toFixed(1) + " g/plantas";
+        }
+    </script>
+</body>
+
+
+</html>
