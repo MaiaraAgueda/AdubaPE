@@ -8,10 +8,51 @@
   <title>Recomendação de calagem e adubação do Abacaxi</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
   <style>
-    #calcBotao {
-      font-size: large;
-      text-align: center;
+    .centralizado {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
+    #calcBotao {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 200px;
+      /* Defina a largura desejada */
+      height: 40px;
+      font-size: 20px;
+      justify-content: center;
+      margin: 0 auto;
+      margin-top: 0px;
+
+    }
+
+    #botaoRecarregar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 200px;
+      /* Defina a largura desejada */
+      height: 50px;
+      font-size: 17px;
+      justify-content: center;
+      margin: 0 auto;
+      margin-top: 0px;
+    }
+
+    .escondida {
+      display: none;
+    }
+
+    .card {
+      margin: auto;
+      width: 300px;
+      background-color: #f0f0f0;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      text-align: center;
     }
 
     #calagem {
@@ -32,7 +73,7 @@
       text-align: center;
     }
 
-    #TituloOpcoes {
+    #TituloOpcoes,#tituloResultado {
       text-align: center;
     }
 
@@ -69,80 +110,99 @@
 <html>
 
 <body>
-  <h1>Recomendação de calagem e adubação</h1>
-  <h3>Por favor insira as informações abaixo que devem ser obtidas a partir da análise química do solo </h3>
-  <form>
-    <label for="aluminio">Teor de alumínio (cmolc/dm³):</label>
-    <input type="number" id="aluminio" name="aluminio" step="0.01" required><br>
-    <br>
+  <div id="minhaDiv">
+    <h1>Recomendação de calagem e adubação</h1>
+    <h3>Por favor insira as informações abaixo que devem ser obtidas a partir da análise química do solo </h3>
+    <form>
+      <label for="aluminio">Teor de alumínio (cmolc/dm³):</label>
+      <input type="number" id="aluminio" name="aluminio" step="0.01" required><br>
+      <br>
 
-    <label for="calcio">Teor de cálcio (cmolc/dm³):</label>
-    <input type="number" id="calcio" name="calcio" step="0.01" required><br>
-    <br>
-    <label for="magnesio">Teor de magnésio (cmolc/dm³):</label>
-    <input type="number" id="magnesio" name="magnesio" step="0.01" required><br>
-    <br>
-    <label for="argila">Percentagem de argila (%):</label>
-    <input type="number" id="argila" name="argila" step="0.01" required><br>
-    <br>
-    <label for="prnt">PRNT do calcário:</label>
-    <input type="number" id="prnt" name="prnt" step="0.01" required><br>
-    <br>
-    <label for="p">Teor de fósforo (mg/dm³):</label>
-    <input type="number" id="p" name="p" step="0.01" required><br>
-    <br>
-    <label for="k">Teor de potássio (cmolc/dm³):</label>
-    <input type="number" id="k" name="k" step="0.01" required><br>
+      <label for="calcio">Teor de cálcio (cmolc/dm³):</label>
+      <input type="number" id="calcio" name="calcio" step="0.01" required><br>
+      <br>
+      <label for="magnesio">Teor de magnésio (cmolc/dm³):</label>
+      <input type="number" id="magnesio" name="magnesio" step="0.01" required><br>
+      <br>
+      <label for="argila">Percentagem de argila (%):</label>
+      <input type="number" id="argila" name="argila" step="0.01" required><br>
+      <br>
+      <label for="prnt">PRNT do calcário:</label>
+      <input type="number" id="prnt" name="prnt" step="0.01" required><br>
+      <br>
+      <label for="p">Teor de fósforo (mg/dm³):</label>
+      <input type="number" id="p" name="p" step="0.01" required><br>
+      <br>
+      <label for="k">Teor de potássio (cmolc/dm³):</label>
+      <input type="number" id="k" name="k" step="0.01" required><br>
 
-    <h1>Escolha o espaçamento: <span id="numPlantas"></span></h1>
-    <label>
-      <input type="radio" name="opcao" value="37000"> 0,9 x 0,3 m
-    </label>
-    <label>
-      <input type="radio" name="opcao" value="38400"> 0,9 x 0,4 x 0,4 m
-    </label>
-    <br> <br>
+      <h1>Escolha o espaçamento: <span id="numPlantas"></span></h1>
+      <label>
+        <input type="radio" name="opcao" value="37000"> 0,9 x 0,3 m
+      </label>
+      <label>
+        <input type="radio" name="opcao" value="38400"> 0,9 x 0,4 x 0,4 m
+      </label>
+      <br> <br>
 
-    <br>
-    <div style="display: flex; justify-content: center; align-items: center; ">
-      <button id="calcBotao" type="button" onclick="calcularEArmazenar()">Calcular</button>
-    </div>
-
+      <br>
+      <div class="centralizado">
+        <button id="calcBotao" type="button" onclick="calcularEArmazenar()">Calcular</button>
+      </div>
+  </div>
 
   </form>
 
-  <div id="meuTexto">
+  <div id="meuTexto" class="escondida">
+    <h1 id="tituloResultado">Resultados</h1>
 
-    <p id="calagem">Calagem</p>
-    <p id="calcario"><span id="calcario"></span></p><br>
-
-
-
-    <p id="tituloNitro">Nitrogênio </p>
-    <p id="mes1-2">1ª ao 2ª Mês <br> <span id="nitro1-2"></span></p>
-    <p id="mes5-6">5ª ao 6ª Mês <br><span id="nitro5-6"></span></p>
-    <p id="mes8-9">8ª ao 9ª Mês <br><span id="nitro8-9"></span></p>
+    <div class="card">
+      <p id="calagem">Calagem</p>
+      <p>Calcário Dolomítico</p>
+      <p id="calcario"><span id="calcario"></span></p><br>
+    </div>
+    <br><br>
 
 
-    <p id="tituloFosforo">Fósforo </p>
-    <p id="mes1-2">1ª ao 2ª Mês <br> <span id="pmes1-2"></span></p>
-    <p id="mes1-2">1ª ao 2ª Mês <br> <span id="pmes5-6"></span></p>
-    <p id="mes1-2">1ª ao 2ª Mês <br> <span id="pmes8-9"></span></p>
 
-    <p id="tituloPotássio">Potássio </p>
-    <p id="mes1-2">1ª ao 2ª Mês <br> <span id="kmes1-2"></span></p>
-    <p id="mes1-2">1ª ao 2ª Mês <br> <span id="kmes5-6"></span></p>
-    <p id="mes1-2">1ª ao 2ª Mês <br> <span id="kmes8-9"></span></p>
+    <div class="card">
+      <p id="tituloNitro">Nitrogênio </p>
+      <p id="mes1-2">1ª ao 2ª Mês <br> <span id="nitro1-2"></span></p>
+      <p id="mes5-6">5ª ao 6ª Mês <br><span id="nitro5-6"></span></p>
+      <p id="mes8-9">8ª ao 9ª Mês <br><span id="nitro8-9"></span></p>
+    </div>
+
+    <div class="card">
+      <p id="tituloFosforo">Fósforo </p>
+      <p id="mes1-2">1ª ao 2ª Mês <br> <span id="pmes1-2"></span></p>
+      <p id="mes1-2">1ª ao 2ª Mês <br> <span id="pmes5-6"></span></p>
+      <p id="mes1-2">1ª ao 2ª Mês <br> <span id="pmes8-9"></span></p>
+    </div>
+
+    <div class="card">
+      <p id="tituloPotássio">Potássio </p>
+      <p id="mes1-2">1ª ao 2ª Mês <br> <span id="kmes1-2"></span></p>
+      <p id="mes1-2">1ª ao 2ª Mês <br> <span id="kmes5-6"></span></p>
+      <p id="mes1-2">1ª ao 2ª Mês <br> <span id="kmes8-9"></span></p>
+    </div>
+    <br><br>
+    <div id="botoes">
+      <div class="centralizado">
+        <button id="botaoRecarregar" onclick="recargar()">Fazer nova recomendação</button>
+      </div><br>
+      <fieldset>
+        <h5 id="TituloOpcoes">Deseja Copiar o Conteúdo?</h5>
+        <button onclick="copiarTexto()">Copiar texto</button>
+        <h5 id="TituloOpcoes">Deseja gerar o PDF? *</h5>
+        <button id="PDF" onclick="gerarPDF()">Gerar PDF</button>
+        <h6> ** Opção disponivel nos navegadores Edge, Firefox e Safari</h6>
+      </fieldset>
+    </div>
+
   </div>
   <br>
 
-  <div id="botoes">
-    <h5 id="TituloOpcoes">Deseja Copiar o Conteúdo?</h5>
-    <button onclick="copiarTexto()">Copiar texto</button>
-    <h5 id="TituloOpcoes">Deseja gerar o PDF? *</h5>
-    <button id="PDF" onclick="gerarPDF()">Gerar PDF</button>
-    <h6> ** Opção disponivel nos navegadores Edge, Firefox e Safari</h6>
-  </div>
+
   <script>
 
     function calcularEArmazenar() {
@@ -291,6 +351,27 @@
       // exibe uma mensagem de confirmação
       alert("O texto foi copiado para a área de transferência!");
     }
+
+    function esconder() {
+            var botao = document.getElementById("calcBotao");
+            var minhaDiv = document.getElementById("minhaDiv");
+            var meuTexto = document.getElementById("meuTexto");
+
+            minhaDiv.classList.add("escondida");
+            meuTexto.classList.remove("escondida");
+        }
+
+        var botao = document.getElementById("calcBotao");
+        botao.addEventListener("click", esconder);
+
+        function recargar() {
+            var botaoRecarregar = document.getElementById("botaoRecarregar");
+
+            botaoRecarregar.addEventListener("click", function () {
+                location.reload();
+            });
+
+        }
 
 
 
