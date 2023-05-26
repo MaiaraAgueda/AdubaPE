@@ -5,13 +5,40 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recomendação de calagem e adubação da Goiaba Irrigada</title>
+    <title>Recomendação de calagem e adubação da Goiaba Não Irrigada</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
     <style>
-        #calcBotao {
-            font-size: large;
-            text-align: center;
+        .centralizado {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
+        #calcBotao {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            /* Defina a largura desejada */
+            height: 40px;
+            font-size: 20px;
+            justify-content: center;
+            margin: 0 auto;
+            margin-top: 0px;
+
+        }
+
+        #botaoRecarregar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            /* Defina a largura desejada */
+            height: 50px;
+            font-size: 17px;
+            justify-content: center;
+            margin: 0 auto;
+            margin-top: 0px;
         }
 
         #calagem {
@@ -32,7 +59,8 @@
             text-align: center;
         }
 
-        #TituloOpcoes {
+        #TituloOpcoes,
+        #tituloResultado {
             text-align: center;
         }
 
@@ -51,95 +79,135 @@
             text-align: center;
             font-size: larger;
         }
+
+
+        .escondida {
+            display: none;
+        }
+
+
+        .card {
+            margin: auto;
+            width: 300px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
     </style>
 </head>
 <html>
 
 <body>
-    <h1>Recomendação de calagem e adubação</h1>
-    <h3>Por favor insira as informações abaixo que devem ser obtidas a partir da análise química do solo </h3>
-    <form>
-        <label for="aluminio">Teor de alumínio (cmolc/dm³):</label>
-        <input type="number" id="aluminio" name="aluminio" step="0.01" required><br>
-        <br>
+    <div id="minhaDiv">
+        <h1>Recomendação de calagem e adubação</h1>
+        <h3>Por favor insira as informações abaixo que devem ser obtidas a partir da análise química do solo </h3>
+        <form>
+            <label for="aluminio">Teor de alumínio (cmolc/dm³):</label>
+            <input type="number" id="aluminio" name="aluminio" step="0.01" required><br>
+            <br>
 
-        <label for="calcio">Teor de cálcio (cmolc/dm³):</label>
-        <input type="number" id="calcio" name="calcio" step="0.01" required><br>
-        <br>
-        <label for="magnesio">Teor de magnésio (cmolc/dm³):</label>
-        <input type="number" id="magnesio" name="magnesio" step="0.01" required><br>
-        <br>
-        <label for="argila">Percentagem de argila (%):</label>
-        <input type="number" id="argila" name="argila" step="0.01" required><br>
-        <br>
-        <label for="prnt">PRNT do calcário:</label>
-        <input type="number" id="prnt" name="prnt" step="0.01" required><br>
-        <br>
-        <label for="p">Teor de fósforo (mg/dm³):</label>
-        <input type="number" id="p" name="p" step="0.01" required><br>
-        <br>
-        <label for="k">Teor de potássio (cmolc/dm³):</label>
-        <input type="number" id="k" name="k" step="0.01" required><br>
+            <label for="calcio">Teor de cálcio (cmolc/dm³):</label>
+            <input type="number" id="calcio" name="calcio" step="0.01" required><br>
+            <br>
+            <label for="magnesio">Teor de magnésio (cmolc/dm³):</label>
+            <input type="number" id="magnesio" name="magnesio" step="0.01" required><br>
+            <br>
+            <label for="argila">Percentagem de argila (%):</label>
+            <input type="number" id="argila" name="argila" step="0.01" required><br>
+            <br>
+            <label for="prnt">PRNT do calcário:</label>
+            <input type="number" id="prnt" name="prnt" step="0.01" required><br>
+            <br>
+            <label for="p">Teor de fósforo (mg/dm³):</label>
+            <input type="number" id="p" name="p" step="0.01" required><br>
+            <br>
+            <label for="k">Teor de potássio (cmolc/dm³):</label>
+            <input type="number" id="k" name="k" step="0.01" required><br>
 
-        <h1>Escolha o espaçamento: <span id="numPlantas"></span></h1>
-        <label>
-            <input type="radio" name="opcao" value="333"> 6 x 5 m
-        </label>
-        <label>
-            <input type="radio" name="opcao" value="277"> 6 x 6 m
-        </label>
+            <h1>Escolha o espaçamento: <span id="numPlantas"></span></h1>
+            <label>
+                <input type="radio" name="opcao" value="333"> 6 x 5 m
+            </label>
+            <label>
+                <input type="radio" name="opcao" value="277"> 6 x 6 m
+            </label>
 
-        <br> <br>
+            <br> <br>
 
-        <br>
-        <div style="display: flex; justify-content: center; align-items: center; ">
-            <button id="calcBotao" type="button" onclick="calcularEArmazenar()">Calcular</button>
-        </div>
+            <br>
+            <div class="centralizado">
+                <button id="calcBotao" type="button" onclick="calcularEArmazenar()">Calcular</button>
+            </div>
 
+    </div>
     </form>
 
-    <div id="meuTexto">
+    <div id="meuTexto" class="escondida">
+        <h1 id="tituloResultado">Resultados</h1>
 
-        <p id="calagem">Calagem</p>
-        <p id="calcario"><span id="calcario"></span></p><br>
+        <div class="card">
+            <p id="calagem">Calagem</p>
+            <p>Calcário Dolomítico</p>
+            <p id="calcario"><span id="calcario"></span></p><br>
+        </div>
+        <br><br>
 
-        <p id="tituloNitro">Nitrogênio </p>
-        <p id="teores">Pantio <br> <span id="nitroPlantio"></span></p>
-        <p id="teores">Crescimento<br><span id="nitroCresc"></span></p>
-        <p id="teores">2° ano<br><span id="nitro2"></span></p>
-        <p id="teores">3° ano <br><span id="nitro3"></span></p>
-        <p id="teores">4° ano em diante<br><span id="nitro4"></span></p>
+        <div class="card">
+            <p id="tituloNitro">Nitrogênio </p>
+            <p id="teores">Pantio <br> <span id="nitroPlantio"></span></p><br>
+            <p id="teores">Crescimento<br><span id="nitroCresc"></span></p><br>
+            <p id="teores">2° ano<br><span id="nitro2"></span></p><br>
+            <p id="teores">3° ano <br><span id="nitro3"></span></p><br>
+            <p id="teores">4° ano em diante<br><span id="nitro4"></span></p><br>
+        </div>
+        <br><br>
 
-        <p id="tituloFosforo">Fósforo </p>
-        <p id="teores">Pantio <br> <span id="pPlantio"></span></p>
-        <p id="teores">Crescimento<br><span id="pCresc"></span></p>
-        <p id="teores">2°<br><span id="p2"></span></p>
-        <p id="teores">3° <br><span id="p3"></span></p>
-        <p id="teores">4° em diante<br><span id="p4"></span></p>
+        <div class="card">
+            <p id="tituloFosforo">Fósforo </p>
+            <p id="teores">Pantio <br> <span id="pPlantio"></span></p>
+            <p id="teores">Crescimento<br><span id="pCresc"></span></p>
+            <p id="teores">2°<br><span id="p2"></span></p>
+            <p id="teores">3° <br><span id="p3"></span></p>
+            <p id="teores">4° em diante<br><span id="p4"></span></p>
+        </div>
+        <br><br>
 
-        <p id="tituloPotássio">Potássio </p>
-        <p id="teores">Pantio <br> <span id="kPlantio"></span></p>
-        <p id="teores">Crescimento<br><span id="kCresc"></span></p>
-        <p id="teores">2°<br><span id="k2"></span></p>
-        <p id="teores">3° <br><span id="k3"></span></p>
-        <p id="teores">4° em diante<br><span id="k4"></span></p>
+        <div class="card">
+            <p id="tituloPotássio">Potássio </p>
+            <p id="teores">Pantio <br> <span id="kPlantio"></span></p>
+            <p id="teores">Crescimento<br><span id="kCresc"></span></p>
+            <p id="teores">2°<br><span id="k2"></span></p>
+            <p id="teores">3° <br><span id="k3"></span></p>
+            <p id="teores">4° em diante<br><span id="k4"></span></p>
+        </div>
+        <br><br>
+
+        <div id="botoes">
+            <div class="centralizado">
+                <button id="botaoRecarregar" onclick="recargar()">Fazer nova recomendação</button>
+            </div><br>
+            <fieldset>
+                <h5 id="TituloOpcoes">Deseja Copiar o Conteúdo?</h5>
+                <button onclick="copiarTexto()">Copiar texto</button>
+                <h5 id="TituloOpcoes">Deseja gerar o PDF? *</h5>
+                <button id="PDF" onclick="gerarPDF()">Gerar PDF</button>
+                <h6> ** Opção disponivel nos navegadores Edge, Firefox e Safari</h6>
+            </fieldset>
+        </div>
     </div>
     <br>
-    <div id="botoes">
-        <fieldset>
-            <h5 id="TituloOpcoes">Deseja Copiar o Conteúdo?</h5>
-            <button onclick="copiarTexto()">Copiar texto</button>
-            <h5 id="TituloOpcoes">Deseja gerar o PDF? *</h5>
-            <button id="PDF" onclick="gerarPDF()">Gerar PDF</button>
-            <h6> ** Opção disponivel nos navegadores Edge, Firefox e Safari</h6>
-        </fieldset>
-    </div>
+
     <script>
+
 
         function calcularEArmazenar() {
             calcular();
             armazenarValor();
         }
+
+
 
         function calcular() {
             // obter valores dos campos de entrada
@@ -166,23 +234,32 @@
 
 
             // exibir resultado da Calagem
-            document.getElementById('calcario').innerHTML = calcario_necessario.toFixed(2) + " T/ha";
+            document.getElementById('calcario').innerHTML = calcario_necessario.toFixed(2) + " kg/ha";
 
-            // Dados recomendação de nitrogênio
+            // Dados recomendação de nitrogênio em g/plantas
             const nPlantio = 0;
             const nCrescimento = 40;
             const n2 = 80;
             const n3 = 120;
             const n4 = 180;
 
-            // Exibir recomendação de nitrogênio
-            document.getElementById('nitroPlantio').innerHTML = nPlantio + " kg/ha";
-            document.getElementById('nitroCresc').innerHTML = nCrescimento + " kg/ha";
-            document.getElementById('nitro2').innerHTML = n2 + " kg/ha";
-            document.getElementById('nitro3').innerHTML = n3 + " kg/ha";
-            document.getElementById('nitro4').innerHTML = n4 + " kg/ha";
+            var espacamento = document.querySelector('input[name="opcao"]:checked').value;
 
-            // Dados recomendação de fosforo
+            // Conversão recomendação de nitrogênio para kg/ha
+            var nPlantioGramas = (0 * espacamento) / 1000;
+            var nCrescimentoGramas = (40 * espacamento) / 1000;
+            var n2Gramas = (80 * espacamento) / 1000;
+            var n3Gramas = (120 * espacamento) / 1000;
+            var n4Gramas = (180 * espacamento) / 1000;
+
+            // Exibir recomendação de nitrogênio
+            document.getElementById('nitroPlantio').innerHTML = nPlantio + " g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + nPlantioGramas.toFixed(1) + " kg/ha";
+            document.getElementById('nitroCresc').innerHTML = nCrescimento + "  g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + nCrescimentoGramas.toFixed(1) + " kg/ha";
+            document.getElementById('nitro2').innerHTML = n2 + "  g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + n2Gramas.toFixed(2) + " kg/ha";
+            document.getElementById('nitro3').innerHTML = n3 + "  g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + n3Gramas.toFixed(2) + " kg/ha";;
+            document.getElementById('nitro4').innerHTML = n4 + "  g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + n4Gramas.toFixed(2) + " kg/ha";;
+
+            // Dados recomendação de fosforo g/plantas
             let msgPlan = ""; //plantio
             let msgCresc = ""; //crescimento
             let msg2 = ""; // 2 ano
@@ -208,14 +285,23 @@
                 msg3 = "60";
                 msg4 = "40";
             }
-            // Exibir recomendação de fósforo
-            document.getElementById('pPlantio').innerHTML = msgPlan + " kg/ha";
-            document.getElementById('pCresc').innerHTML = msgCresc + " kg/ha";
-            document.getElementById('p2').innerHTML = msg2 + " kg/ha";
-            document.getElementById('p3').innerHTML = msg3 + " kg/ha";
-            document.getElementById('p4').innerHTML = msg4 + " kg/ha";
 
-            // Dados recomendação de Potássio
+            // Conversão Dados recomendação de fosforo em kg/ha
+            let msgPlanKilo = (msgPlan * espacamento) / 1000;
+            let msgCrescKilo = (msgCresc * espacamento) / 1000;
+            let msg2Kilo = (msg2 * espacamento) / 1000;
+            let msg3Kilo = (msg3 * espacamento) / 1000;
+            let msg4Kilo = (msg4 * espacamento) / 1000;
+
+
+            // Exibir recomendação de fósforo
+            document.getElementById('pPlantio').innerHTML = msgPlan + " g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + msgPlanKilo.toFixed(2) + " kg/ha";
+            document.getElementById('pCresc').innerHTML = msgCresc + " g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + msgCrescKilo.toFixed(2) + " kg/ha";;
+            document.getElementById('p2').innerHTML = msg2 + " g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + msg2Kilo.toFixed(2) + " kg/ha";;
+            document.getElementById('p3').innerHTML = msg3 + " g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + msg3Kilo.toFixed(2) + " kg/ha";;
+            document.getElementById('p4').innerHTML = msg4 + " g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + msg4Kilo.toFixed(2) + " kg/ha";;
+
+            // Dados recomendação de Potássio em g/plantas
             let kPlan = "";
             let kCresc = "";
             let k2 = "";
@@ -244,12 +330,21 @@
                 k4 = "60";
             }
 
+
+            // Conversão Dados recomendação de Potássio em kg/ha
+            let kPlanKilo = (kPlan * espacamento) / 1000;
+            let kCrescKilo = (kCresc * espacamento) / 1000;
+            let k2Kilo = (k2 * espacamento) / 1000;
+            let k3Kilo = (k3 * espacamento) / 1000;
+            let k4Kilo = (k4 * espacamento) / 1000;
+
             // Exibir recomendação de Potássio
-            document.getElementById('kPlantio').innerHTML = kPlan + " kg/ha";
-            document.getElementById('kCresc').innerHTML = kCresc + " kg/ha";
-            document.getElementById('k2').innerHTML = k2 + " kg/ha";
-            document.getElementById('k3').innerHTML = k3 + " kg/ha";
-            document.getElementById('k4').innerHTML = k4 + " kg/ha";
+            document.getElementById('kPlantio').innerHTML = kPlan + "  g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + kPlanKilo.toFixed(2) + " kg/ha";
+            document.getElementById('kCresc').innerHTML = kCresc + " g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + kCrescKilo.toFixed(2) + " kg/ha";
+            document.getElementById('k2').innerHTML = k2 + "  g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + k2Kilo.toFixed(2) + " kg/ha";
+            document.getElementById('k3').innerHTML = k3 + "  g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + k3Kilo.toFixed(2) + " kg/ha";
+            document.getElementById('k4').innerHTML = k4 + "  g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + k4Kilo.toFixed(2) + " kg/ha";
+
 
 
         }
@@ -303,6 +398,27 @@
 
             // exibe uma mensagem de confirmação
             alert("O texto foi copiado para a área de transferência!");
+        }
+
+        function esconder() {
+            var botao = document.getElementById("calcBotao");
+            var minhaDiv = document.getElementById("minhaDiv");
+            var meuTexto = document.getElementById("meuTexto");
+
+            minhaDiv.classList.add("escondida");
+            meuTexto.classList.remove("escondida");
+        }
+
+        var botao = document.getElementById("calcBotao");
+        botao.addEventListener("click", esconder);
+
+        function recargar() {
+            var botaoRecarregar = document.getElementById("botaoRecarregar");
+
+            botaoRecarregar.addEventListener("click", function () {
+                location.reload();
+            });
+
         }
     </script>
 
