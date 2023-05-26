@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recomendação de calagem e adubação do Abacaxi</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <!-- input dos dados -->
+    <div id="minhaDiv">
+        <h1>Recomendação de calagem e adubação</h1>
+        <h3>Por favor insira as informações abaixo que devem ser obtidas a partir da análise química do solo </h3>
+        <form>
+            <label for="aluminio">Teor de alumínio (cmolc/dm³):</label>
+            <input type="number" id="aluminio" name="aluminio" step="0.01" required><br>
+            <br>
+
+            <label for="calcio">Teor de cálcio (cmolc/dm³):</label>
+            <input type="number" id="calcio" name="calcio" step="0.01" required><br>
+            <br>
+            <label for="magnesio">Teor de magnésio (cmolc/dm³):</label>
+            <input type="number" id="magnesio" name="magnesio" step="0.01" required><br>
+            <br>
+            <label for="argila">Percentagem de argila (%):</label>
+            <input type="number" id="argila" name="argila" step="0.01" required><br>
+            <br>
+            <label for="prnt">PRNT do calcário:</label>
+            <input type="number" id="prnt" name="prnt" step="0.01" required><br>
+            <br>
+            <label for="p">Teor de fósforo (mg/dm³):</label>
+            <input type="number" id="p" name="p" step="0.01" required><br>
+            <br>
+            <label for="k">Teor de potássio (cmolc/dm³):</label>
+            <input type="number" id="k" name="k" step="0.01" required><br>
+
+            <h1>Escolha o espaçamento: <span id="numPlantas"></span></h1>
+            <label>
+                <input type="radio" name="opcao" value="37000" onclick="armazenarValor()"> 0,9 x 0,3 m
+            </label>
+            <label>
+                <input type="radio" name="opcao" value="38400" onclick="armazenarValor()"> 0,9 x 0,4 x 0,4 m
+            </label>
+            <br> <br>
+
+            <br>
+            <div class="centralizado">
+                <button id="calcBotao" type="button" onclick="calcularEArmazenar()">Calcular</button>
+            </div>
+        </form>
+    </div>
+    <!-- FIM input dos dados -->
+
+    <div id="meuTexto" class="escondida">
+        <h1 id="tituloResultado">Resultados</h1>
+        <div class="centralizado">
+            <button id="botaoRecarregar" onclick="recargar()">Fazer nova recomendação</button>
+        </div><br>
+
+        <!-- div resultados da calagem -->
+        <div class="card">
+            <p id="calagem">Calagem</p>
+            <p>Calcário Dolomítico</p>
+            <p id="calcario"><span id="calcario"></span></p><br>
+        </div>
+        <br><br>
+
+        <!-- Select do Nitrogenio-->
+        <div id="selecao" class="card">
+            <select id="tituloNitro" onchange="mostrarDivNitrogenio(this.value)">
+                <option value="1" selected>Nitrogenio(N)</option>
+                <option value="2">Uréia</option>
+                <option value="3">Sulfato de amônio</option>
+            </select>
+        </div>
+
+        <!-- Resultados nitrogenio-->
+        <div id="nitrogenio" class="card" style="display: block;">
+            <p id="mes1-2">1ª ao 2ª Mês <br> <span id="nitro1-2"></span></p>
+            <p id="mes5-6">5ª ao 6ª Mês <br><span id="nitro5-6"></span></p>
+            <p id="mes8-9">8ª ao 9ª Mês <br><span id="nitro8-9"></span></p>
+        </div>
+
+        <!-- Resultados Ureia-->
+        <div id="ureia" class="card" style="display: none;">
+            <p id="mes1-2">1ª ao 2ª Mês  <br> <span id="ureia1-2"></span></p>
+            <p id="mes5-6">5ª ao 6ª Mês  <br><span id="ureia5-6"></span></p>
+            <p id="mes8-9">8ª ao 9ª Mês  <br><span id="ureia8-9"></span></p>
+        </div>
+
+        <!-- Resultados Sulfato de amônio-->
+        <div id="sulfatoAmonio" class="card" style="display: none;">
+            <p id="mes1-2">1ª ao 2ª Mês <br> <span id="amonio1"></span></p>
+            <p id="mes5-6">5ª ao 6ª Mês <br><span id="amonio2"></span></p>
+            <p id="mes8-9">8ª ao 9ª Mês <br><span id="amonio3"></span></p>
+        </div>
+
+        <br><br>
+        <!-- Select do Fosforo-->
+        <div id="selecao" class="card">
+            <select id="tituloNitro" onchange="mostrarDivFosforo(this.value)">
+                <option value="1" selected>Fosforo(P2O5)</option>
+                <option value="2">Superfosfato Simples(SFS)</option>
+                <option value="3">Superfosfato Triplo(SFT)</option>
+            </select>
+        </div>
+
+        <!-- Resultados Fosforo-->
+        <div id="fosforo" class="card" style="display: block;">
+            <p id="mes1-2">1ª ao 2ª Mês <br> <span id="pmes1-2"></span></p>
+            <p id="mes1-2">1ª ao 2ª Mês <br> <span id="pmes5-6"></span></p>
+            <p id="mes1-2">1ª ao 2ª Mês <br> <span id="pmes8-9"></span></p>
+        </div>
+
+        <!-- Resultados Superfosfato Simples(SFS)-->
+        <div id="SFS" class="card" style="display: none;">
+            <p id="mes1-2">1ª ao 2ª Mês <br> <span id="sfs1"></span></p>
+            <p id="mes1-2">1ª ao 2ª Mês <br> <span id="sfs2"></span></p>
+            <p id="mes1-2">1ª ao 2ª Mês <br> <span id="sfs3"></span></p>
+        </div>
+
+        <!-- Resultados Superfosfato Triplo(SFT)-->
+        <div id="SFT" class="card" style="display: none;">
+            <p id="mes1-2">1ª ao 2ª Mês <br> <span id="sft1"></span></p>
+            <p id="mes1-2">1ª ao 2ª Mês <br> <span id="sft2"></span></p>
+            <p id="mes1-2">1ª ao 2ª Mês <br> <span id="sft3"></span></p>
+        </div><br><br>
+
+        <!-- Select do Potassio-->
+        <div id="selecao" class="card">
+            <select id="tituloNitro" onchange="mostrarDivPotassio(this.value)">
+                <option value="1" selected>Potassio(K2O)</option>
+                <option value="2">Sulfato de Potassio</option>
+                <option value="3">Cloreto de Potassio</option>
+            </select>
+        </div>
+
+        <!-- Resultados Potassio-->
+        <div id="potassio" class="card" style="display: block;">
+            <p id="mes1-2">1ª ao 2ª Mês <br> <span id="kmes1-2"></span></p>
+            <p id="mes1-2">1ª ao 2ª Mês <br> <span id="kmes5-6"></span></p>
+            <p id="mes1-2">1ª ao 2ª Mês <br> <span id="kmes8-9"></span></p>
+        </div>
+
+        <!-- Resultados sulfato de potássio-->
+        <div id="sulfatoPotassio" class="card" style="display: none;">
+            <p id="mes1-2">1ª ao 2ª Mês <br> <span id="sulfato1"></span></p>
+            <p id="mes1-2">1ª ao 2ª Mês <br> <span id="sulfato2"></span></p>
+            <p id="mes1-2">1ª ao 2ª Mês <br> <span id="sulfato3"></span></p>
+        </div>
+
+        <!-- Resultados Cloreto de potássio-->
+        <div id="cloretoPotassio" class="card" style="display: none;">
+            <p id="mes1-2">1ª ao 2ª Mês <br> <span id="cloreto1"></span></p>
+            <p id="mes1-2">1ª ao 2ª Mês <br> <span id="cloreto2"></span></p>
+            <p id="mes1-2">1ª ao 2ª Mês <br> <span id="cloreto3"></span></p>
+        </div>
+        <br><br>
+        <div id="botoes">
+            <fieldset>
+                <h5 id="TituloOpcoes">Deseja Copiar o Conteúdo?</h5>
+                <button onclick="copiarTexto()">Copiar texto</button>
+                <h5 id="TituloOpcoes">Deseja gerar o PDF? *</h5>
+                <button id="PDF" onclick="gerarPDF()">Gerar PDF</button>
+                <h6> ** Opção disponivel nos navegadores Edge, Firefox e Safari</h6>
+            </fieldset>
+        </div>
+ 
+    </div>
+    </div>
+    <br>
+    <script src="script.js"></script>
+</body>
+
+</html>

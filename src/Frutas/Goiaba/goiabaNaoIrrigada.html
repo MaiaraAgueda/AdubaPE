@@ -236,7 +236,7 @@
             // exibir resultado da Calagem
             document.getElementById('calcario').innerHTML = calcario_necessario.toFixed(2) + " kg/ha";
 
-            // Dados recomendação de nitrogênio g/plantas
+            // Dados recomendação de nitrogênio em g/plantas
             const nPlantio = 0;
             const nCrescimento = 40;
             const n2 = 80;
@@ -245,7 +245,7 @@
 
             var espacamento = document.querySelector('input[name="opcao"]:checked').value;
 
-            // Conversão Dados recomendação de nitrogênio em kg/ha
+            // Conversão recomendação de nitrogênio para kg/ha
             var nPlantioGramas = (0 * espacamento) / 1000;
             var nCrescimentoGramas = (40 * espacamento) / 1000;
             var n2Gramas = (80 * espacamento) / 1000;
