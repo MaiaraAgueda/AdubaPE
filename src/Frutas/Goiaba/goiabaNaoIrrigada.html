@@ -14,6 +14,14 @@
             align-items: center;
         }
 
+        .div-container {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+        }
+
         #calcBotao {
             display: flex;
             justify-content: center;
@@ -68,10 +76,9 @@
         #tituloPotássio,
         #tituloNitro {
             text-align: center;
-            font-size: x-large;
+            font-size: large;
             color: white;
             background-color: rgb(22, 211, 22);
-
         }
 
 
@@ -100,6 +107,7 @@
 <html>
 
 <body>
+    <!-- input dos dados -->
     <div id="minhaDiv">
         <h1>Recomendação de calagem e adubação</h1>
         <h3>Por favor insira as informações abaixo que devem ser obtidas a partir da análise química do solo </h3>
@@ -128,25 +136,28 @@
 
             <h1>Escolha o espaçamento: <span id="numPlantas"></span></h1>
             <label>
-                <input type="radio" name="opcao" value="333"> 6 x 5 m
+                <input type="radio" name="opcao" value="333" onclick="armazenarValor()"> 6 x 5 m
             </label>
             <label>
-                <input type="radio" name="opcao" value="277"> 6 x 6 m
+                <input type="radio" name="opcao" value="277" onclick="armazenarValor()"> 6 x 6 m
             </label>
-
             <br> <br>
 
             <br>
             <div class="centralizado">
                 <button id="calcBotao" type="button" onclick="calcularEArmazenar()">Calcular</button>
             </div>
-
+        </form>
     </div>
-    </form>
+    <!-- FIM input dos dados -->
 
     <div id="meuTexto" class="escondida">
         <h1 id="tituloResultado">Resultados</h1>
+        <div class="centralizado">
+            <button id="botaoRecarregar" onclick="recargar()">Fazer nova recomendação</button>
+        </div><br>
 
+        <!-- div resultados da calagem -->
         <div class="card">
             <p id="calagem">Calagem</p>
             <p>Calcário Dolomítico</p>
@@ -154,40 +165,124 @@
         </div>
         <br><br>
 
-        <div class="card">
-            <p id="tituloNitro">Nitrogênio </p>
+        <!-- Select do Nitrogenio-->
+        <div id="selecao" class="card">
+            <select id="tituloNitro" onchange="mostrarDivNitrogenio(this.value)">
+                <option value="1" selected>Nitrogenio(N)</option>
+                <option value="2">Uréia</option>
+                <option value="3">Sulfato de amônio</option>
+            </select>
+        </div>
+
+        <!-- Resultados nitrogenio-->
+        <div id="nitrogenio" class="card" style="display: block;">
             <p id="teores">Pantio <br> <span id="nitroPlantio"></span></p><br>
             <p id="teores">Crescimento<br><span id="nitroCresc"></span></p><br>
             <p id="teores">2° ano<br><span id="nitro2"></span></p><br>
             <p id="teores">3° ano <br><span id="nitro3"></span></p><br>
             <p id="teores">4° ano em diante<br><span id="nitro4"></span></p><br>
         </div>
-        <br><br>
 
-        <div class="card">
-            <p id="tituloFosforo">Fósforo </p>
+
+
+        <!-- Resultados Ureia-->
+        <div id="ureia" class="card" style="display: none;">
+            <p id="teores">Pantio <br> <span id="ureiaPlantio"></span></p><br>
+            <p id="teores">Crescimento<br><span id="ureiaCresc"></span></p><br>
+            <p id="teores">2° ano<br><span id="ureia2"></span></p><br>
+            <p id="teores">3° ano <br><span id="ureia3"></span></p><br>
+            <p id="teores">4° ano em diante<br><span id="ureia4"></span></p><br>
+        </div>
+
+
+        <!-- Resultados Sulfato de amônio-->
+        <div id="sulfatoAmonio" class="card" style="display: none;">
+            <p id="teores">Pantio <br> <span id="amonioPlantio"></span></p><br>
+            <p id="teores">Crescimento<br><span id="amonioCresc"></span></p><br>
+            <p id="teores">2° ano<br><span id="amonio2"></span></p><br>
+            <p id="teores">3° ano <br><span id="amonio3"></span></p><br>
+            <p id="teores">4° ano em diante<br><span id="amonio4"></span></p><br>
+        </div>
+
+        <br><br>
+        <!-- Select do Fosforo-->
+        <div id="selecao" class="card">
+            <select id="tituloNitro" onchange="mostrarDivFosforo(this.value)">
+                <option value="1" selected>Fosforo(P2O5)</option>
+                <option value="2">Superfosfato Simples(SFS)</option>
+                <option value="3">Superfosfato Triplo(SFT)</option>
+            </select>
+        </div>
+
+
+        <!-- Resultados Fosforo-->
+        <div id="fosforo" class="card" style="display: block;">
             <p id="teores">Pantio <br> <span id="pPlantio"></span></p>
             <p id="teores">Crescimento<br><span id="pCresc"></span></p>
             <p id="teores">2°<br><span id="p2"></span></p>
             <p id="teores">3° <br><span id="p3"></span></p>
             <p id="teores">4° em diante<br><span id="p4"></span></p>
         </div>
-        <br><br>
 
-        <div class="card">
-            <p id="tituloPotássio">Potássio </p>
+
+        <!-- Resultados Superfosfato Simples(SFS)-->
+        <div id="SFS" class="card" style="display: none;">
+            <p id="teores">Pantio <br> <span id="sfsPlantio"></span></p>
+            <p id="teores">Crescimento<br><span id="sfsCresc"></span></p>
+            <p id="teores">2°<br><span id="sfs2"></span></p>
+            <p id="teores">3° <br><span id="sfs3"></span></p>
+            <p id="teores">4° em diante<br><span id="sfs4"></span></p>
+        </div>
+
+        <!-- Resultados Superfosfato Triplo(SFT)-->
+        <div id="SFT" class="card" style="display: none;">
+            <p id="teores">Pantio <br> <span id="sftPlantio"></span></p>
+            <p id="teores">Crescimento<br><span id="sftCresc"></span></p>
+            <p id="teores">2°<br><span id="sft2"></span></p>
+            <p id="teores">3° <br><span id="sft3"></span></p>
+            <p id="teores">4° em diante<br><span id="sft4"></span></p>
+        </div>
+
+        <br><br>
+        <!-- Select do Potassio-->
+        <div id="selecao" class="card">
+            <select id="tituloNitro" onchange="mostrarDivPotassio(this.value)">
+                <option value="1" selected>Potassio(K2O)</option>
+                <option value="2">Sulfato de Potassio</option>
+                <option value="3">Cloreto de Potassio</option>
+            </select>
+        </div>
+
+
+        <!-- Resultados Potassio-->
+        <div id="potassio" class="card" style="display: block;">
             <p id="teores">Pantio <br> <span id="kPlantio"></span></p>
             <p id="teores">Crescimento<br><span id="kCresc"></span></p>
             <p id="teores">2°<br><span id="k2"></span></p>
             <p id="teores">3° <br><span id="k3"></span></p>
             <p id="teores">4° em diante<br><span id="k4"></span></p>
         </div>
-        <br><br>
 
+        <!-- Resultados sulfato de potássio-->
+        <div id="sulfatoPotassio" class="card" style="display: none;">
+            <p id="teores">Pantio <br> <span id="sulfatoPlantio"></span></p>
+            <p id="teores">Crescimento<br><span id="sulfatoCresc"></span></p>
+            <p id="teores">2°<br><span id="sulfato2"></span></p>
+            <p id="teores">3° <br><span id="sulfato3"></span></p>
+            <p id="teores">4° em diante<br><span id="sulfato4"></span></p>
+        </div>
+
+        <!-- Resultados Cloreto de potássio-->
+        <div id="cloretoPotassio" class="card" style="display: none;">
+            <p id="teores">Pantio <br> <span id="cloretoPlantio"></span></p>
+            <p id="teores">Crescimento<br><span id="cloretoCresc"></span></p>
+            <p id="teores">2°<br><span id="cloreto2"></span></p>
+            <p id="teores">3° <br><span id="cloreto3"></span></p>
+            <p id="teores">4° em diante<br><span id="cloreto4"></span></p>
+        </div>
+
+        <br><br>
         <div id="botoes">
-            <div class="centralizado">
-                <button id="botaoRecarregar" onclick="recargar()">Fazer nova recomendação</button>
-            </div><br>
             <fieldset>
                 <h5 id="TituloOpcoes">Deseja Copiar o Conteúdo?</h5>
                 <button onclick="copiarTexto()">Copiar texto</button>
@@ -199,17 +294,15 @@
     </div>
     <br>
 
-    <script>
-
-
-        function calcularEArmazenar() {
-            calcular();
+    <script>function calcularEArmazenar() {
+            calcularCalagem();
+            calcularNitrogenio();
+            calcularFosforo();
+            calcularPotassio();
             armazenarValor();
         }
 
-
-
-        function calcular() {
+        function calcularCalagem() {
             // obter valores dos campos de entrada
             const aluminio = parseFloat(document.getElementById('aluminio').value);
             const calcio = parseFloat(document.getElementById('calcio').value);
@@ -224,18 +317,99 @@
             let f;
             if (argila < 15) {
                 f = 1.5;
-            } else if (argila < 35) {
+            } else if (argila >= 15 && argila < 35) {
                 f = 2;
-            } else {
+            } else if (argila >= 35) {
                 f = 2.5;
+            } else {
+                f = 2;
             }
+
+
+
             const al_necessario = Math.max(f * aluminio, f * (2 - (calcio + magnesio)));
             const calcario_necessario = (100 / prnt) * al_necessario;
 
 
             // exibir resultado da Calagem
-            document.getElementById('calcario').innerHTML = calcario_necessario.toFixed(2) + " kg/ha";
+            document.getElementById('calcario').innerHTML = calcario_necessario.toFixed(2) + " T/ha";
 
+        }
+
+
+        //FUNÇÕES DE CONVERSÕES
+        function converterGparaKg(gramas) {
+            var espacamento = document.querySelector('input[name="opcao"]:checked').value;
+            var divisor = 1000;
+            var conversao = (gramas * espacamento) / divisor;
+            return conversao;
+        }
+
+        function converterKgParaGramas(kg) {
+            var espacamento = document.querySelector('input[name="opcao"]:checked').value;
+            var multiplicador = 1000;
+            var conversao = (kg * multiplicador) / espacamento;
+            return conversao;
+        }
+
+        function converterParaUreia(nitroKg) {
+            //transformando de N para Ureia(kg/ha)
+            var porcentagemU = 44; // esta variavel é a porcentagem de nitrogenio que a ureia tem
+
+            var conversao = (100 * nitroKg) / porcentagemU;
+            return conversao;
+        }
+
+        function converterParaSulfato(nitroKg) {
+            //transformando de N para Sulfato de Amonio(kg/ha)
+            var porcentagem = 20; // esta variavel é a porcentagem de nitrogenio que o Sulfato de amônio tem
+
+            var conversao = (100 * nitroKg) / porcentagem;
+            return conversao;
+
+        }
+
+        function converterDePparaSFS(pEmKg) {
+
+            //transformando de P para Superfosfato Simples(kg/ha)
+
+            var porcentagem = 18; // esta variavel é a porcentagem de nitrogenio que o SFS tem
+            var conversao = (100 * pEmKg) / porcentagem;
+            return conversao;
+
+        }
+
+        function converterDePparaSFT(pEmKg) {
+
+            //transformando de P para Superfosfato Simples(kg/ha)
+
+            var porcentagem = 41; // esta variavel é a porcentagem de nitrogenio que o SFT tem
+            var conversao = (100 * pEmKg) / porcentagem;
+            return conversao;
+
+        }
+
+
+        function converterKParaSulfato(kEmKg) {
+
+            //transformando de Potassio(K) para sulfato de potássio(SP) em kg/ha
+            var porcentagem = 48; // esta variavel é a porcentagem de potassio que o sulfato tem
+            var conversao = (100 * kEmKg) / porcentagem;
+            return conversao;
+
+        }
+
+        function converterKparaCloreto(kEmKg) {
+
+            var porcentagem = 58; // esta variavel é a porcentagem de potassio que o cloreto tem
+            var conversao = (100 * kEmKg) / porcentagem;
+            return conversao;
+
+        }
+
+
+        function calcularNitrogenio() {
+            //Calculos Nitrogenio
             // Dados recomendação de nitrogênio em g/plantas
             const nPlantio = 0;
             const nCrescimento = 40;
@@ -243,21 +417,91 @@
             const n3 = 120;
             const n4 = 180;
 
-            var espacamento = document.querySelector('input[name="opcao"]:checked').value;
 
-            // Conversão recomendação de nitrogênio para kg/ha
-            var nPlantioGramas = (0 * espacamento) / 1000;
-            var nCrescimentoGramas = (40 * espacamento) / 1000;
-            var n2Gramas = (80 * espacamento) / 1000;
-            var n3Gramas = (120 * espacamento) / 1000;
-            var n4Gramas = (180 * espacamento) / 1000;
+            //Conversao de nitrogênio de g/plantas para kg/ha
+
+            var nPlantioKg = converterGparaKg(nPlantio);
+            var nCrescKg = converterGparaKg(nCrescimento);
+            var n2Kg = converterGparaKg(n2);
+            var n3Kg = converterGparaKg(n3);
+            var n4Kg = converterGparaKg(n4);
+
+
+            var ou = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp";
 
             // Exibir recomendação de nitrogênio
-            document.getElementById('nitroPlantio').innerHTML = nPlantio + " g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + nPlantioGramas.toFixed(1) + " kg/ha";
-            document.getElementById('nitroCresc').innerHTML = nCrescimento + "  g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + nCrescimentoGramas.toFixed(1) + " kg/ha";
-            document.getElementById('nitro2').innerHTML = n2 + "  g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + n2Gramas.toFixed(2) + " kg/ha";
-            document.getElementById('nitro3').innerHTML = n3 + "  g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + n3Gramas.toFixed(2) + " kg/ha";;
-            document.getElementById('nitro4').innerHTML = n4 + "  g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + n4Gramas.toFixed(2) + " kg/ha";;
+            document.getElementById('nitroPlantio').innerHTML = nPlantioKg.toFixed(2) + " kg/ha" + ou + nPlantio.toFixed(2) + " g/planta";
+            document.getElementById('nitroCresc').innerHTML = nCrescKg.toFixed(2) + " kg/ha" + ou + nCrescimento.toFixed(2) + " g/planta";
+            document.getElementById('nitro2').innerHTML = n2Kg.toFixed(2) + " kg/ha" + ou + n2.toFixed(2) + " g/planta";
+            document.getElementById('nitro3').innerHTML = n3Kg.toFixed(2) + " kg/ha" + ou + n3.toFixed(2) + " g/planta";
+            document.getElementById('nitro4').innerHTML = n4Kg.toFixed(2) + " kg/ha" + ou + n4.toFixed(2) + " g/planta";
+
+
+            //Calculos Ureia
+            //transformando de N para Ureia(kg/ha)
+            var ureiaPlantio = converterParaUreia(nPlantioKg);
+            var ureiaCresc = converterParaUreia(nCrescKg);
+            var ureia2 = converterParaUreia(n2Kg);
+            var ureia3 = converterParaUreia(n3Kg);
+            var ureia4 = converterParaUreia(n4Kg);
+
+
+            //Conversao de Ureia de kg/ha para g/plantas
+            var uPlan = converterKgParaGramas(ureiaPlantio);
+            var uCresc = converterKgParaGramas(ureiaCresc);
+            var u2 = converterKgParaGramas(ureia2);
+            var u3 = converterKgParaGramas(ureia3);
+            var u4 = converterKgParaGramas(ureia4);
+
+
+
+            // Exibir recomendação de Ureia
+            document.getElementById('ureiaPlantio').innerHTML = ureiaPlantio.toFixed(2) + " kg/ha" + ou + uPlan.toFixed(2) + " g/planta";
+            document.getElementById('ureiaCresc').innerHTML = ureiaCresc.toFixed(2) + " kg/ha" + ou + uCresc.toFixed(2) + " g/planta";
+            document.getElementById('ureia2').innerHTML = ureia2.toFixed(2) + " kg/ha" + ou + u2.toFixed(2) + " g/planta";
+            document.getElementById('ureia3').innerHTML = ureia3.toFixed(2) + " kg/ha" + ou + u3.toFixed(2) + " g/planta";
+            document.getElementById('ureia4').innerHTML = ureia4.toFixed(2) + " kg/ha" + ou + u4.toFixed(2) + " g/planta";
+
+
+
+            //Calculos Sulfato de amônio
+            //transformando de N para Sulfato de Amonio(kg/ha)
+
+            var amonioPlantio = converterParaSulfato(nPlantioKg);
+            var amonioCresc = converterParaSulfato(nCrescKg);
+            var amonio2 = converterParaSulfato(n2Kg);
+            var amonio3 = converterParaSulfato(n3Kg);
+            var amonio4 = converterParaSulfato(n4Kg);
+
+            //Conversao de Sulfato de amônio de kg/ha para g/plantas
+            var aPlan = converterKgParaGramas(amonioPlantio);
+            var aCresc = converterKgParaGramas(amonioCresc);
+            var a2 = converterKgParaGramas(amonio2);
+            var a3 = converterKgParaGramas(amonio3);
+            var a4 = converterKgParaGramas(amonio4);
+
+
+            // Exibir recomendação de sulfato de amônio
+            document.getElementById('amonioPlantio').innerHTML = amonioPlantio.toFixed(2) + " kg/ha" + ou + aPlan.toFixed(2) + " g/planta";
+            document.getElementById('amonioCresc').innerHTML = amonioCresc.toFixed(2) + " kg/ha" + ou + aCresc.toFixed(2) + " g/planta";
+            document.getElementById('amonio2').innerHTML = amonio2.toFixed(2) + " kg/ha" + ou + a2.toFixed(2) + " g/planta";
+            document.getElementById('amonio3').innerHTML = amonio3.toFixed(2) + " kg/ha" + ou + a3.toFixed(2) + " g/planta";
+            document.getElementById('amonio4').innerHTML = amonio4.toFixed(2) + " kg/ha" + ou + a4.toFixed(2) + " g/planta";
+
+        }
+
+
+        function calcularFosforo() {
+            // obter valores dos campos de entrada
+            const aluminio = parseFloat(document.getElementById('aluminio').value);
+            const calcio = parseFloat(document.getElementById('calcio').value);
+            const magnesio = parseFloat(document.getElementById('magnesio').value);
+            const argila = parseFloat(document.getElementById('argila').value);
+            const prnt = parseFloat(document.getElementById('prnt').value);
+            const p = parseFloat(document.getElementById('p').value);
+            const k = parseFloat(document.getElementById('k').value);
+
+            var ou = "&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp";//variavei que guarda a formatação para o "ou"
 
             // Dados recomendação de fosforo g/plantas
             let msgPlan = ""; //plantio
@@ -267,87 +511,215 @@
             let msg4 = ""; // 4 ano
 
             if (p < 9) {
-                msgPlan = "80";
-                msgCresc = "0";
-                msg2 = "80";
-                msg3 = "120";
-                msg4 = "120";
+                msgPlan = 80;
+                msgCresc = 0;
+                msg2 = 80;
+                msg3 = 120;
+                msg4 = 120;
             } else if (p >= 9 && p <= 15) {
-                msgPlan = "60";
-                msgCresc = "0";
-                msg2 = "60";
-                msg3 = "80";
-                msg4 = "80";
+                msgPlan = 60;
+                msgCresc = 0;
+                msg2 = 60;
+                msg3 = 80;
+                msg4 = 80;
             } else if (p > 15) {
-                msgPlan = "40";
-                msgCresc = "0";
-                msg2 = "50";
-                msg3 = "60";
-                msg4 = "40";
+                msgPlan = 40;
+                msgCresc = 0;
+                msg2 = 50;
+                msg3 = 60;
+                msg4 = 40;
             }
 
-            // Conversão Dados recomendação de fosforo em kg/ha
-            let msgPlanKilo = (msgPlan * espacamento) / 1000;
-            let msgCrescKilo = (msgCresc * espacamento) / 1000;
-            let msg2Kilo = (msg2 * espacamento) / 1000;
-            let msg3Kilo = (msg3 * espacamento) / 1000;
-            let msg4Kilo = (msg4 * espacamento) / 1000;
+            // Conversão recomendação de fosforo de g/planta para kg/ha
+            let msgPlanKilo = converterGparaKg(msgPlan)
+            let msgCrescKilo = converterGparaKg(msgCresc)
+            let msg2Kilo = converterGparaKg(msg2)
+            let msg3Kilo = converterGparaKg(msg3)
+            let msg4Kilo = converterGparaKg(msg4)
 
 
-            // Exibir recomendação de fósforo
-            document.getElementById('pPlantio').innerHTML = msgPlan + " g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + msgPlanKilo.toFixed(2) + " kg/ha";
-            document.getElementById('pCresc').innerHTML = msgCresc + " g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + msgCrescKilo.toFixed(2) + " kg/ha";;
-            document.getElementById('p2').innerHTML = msg2 + " g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + msg2Kilo.toFixed(2) + " kg/ha";;
-            document.getElementById('p3').innerHTML = msg3 + " g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + msg3Kilo.toFixed(2) + " kg/ha";;
-            document.getElementById('p4').innerHTML = msg4 + " g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + msg4Kilo.toFixed(2) + " kg/ha";;
+            // Exibir recomendação de fósforo em kg/ha e em g/plantas
+            document.getElementById('pPlantio').innerHTML = msgPlanKilo.toFixed(2) + " kg/ha" + ou + msgPlan.toFixed(2) + " g/planta";
+            document.getElementById('pCresc').innerHTML = msgCrescKilo.toFixed(2) + " kg/ha" + ou + msgCresc.toFixed(2) + "g/planta";
+            document.getElementById('p2').innerHTML = msg2Kilo.toFixed(2) + " kg/ha" + ou + msg2.toFixed(2) + " g/planta";
+            document.getElementById('p3').innerHTML = msg3Kilo.toFixed(2) + " kg/ha" + ou + msg3.toFixed(2) + " g/planta";
+            document.getElementById('p4').innerHTML = msg4Kilo.toFixed(2) + " kg/ha" + ou + msg4.toFixed(2) + " g/planta";
 
-            // Dados recomendação de Potássio em g/plantas
+
+
+            //Calculos  Superfosfato Simples(SFS)
+            //transformando de P para Superfosfato Simples(kg/ha)
+
+            var sfsPlan = converterDePparaSFS(msgPlanKilo);
+            var sfsCresc = converterDePparaSFS(msgCrescKilo);
+            var sfs2 = converterDePparaSFS(msg2Kilo);
+            var sfs3 = converterDePparaSFS(msg3Kilo);
+            var sfs4 = converterDePparaSFS(msg4Kilo);
+
+            //Conversao de Superfosfato Simples(SFS) de kg/ha para g/plantas
+            var sPlan = converterKgParaGramas(sfsPlan);
+            var sCresc = converterKgParaGramas(sfsCresc);
+            var s2 = converterKgParaGramas(sfs2);
+            var s3 = converterKgParaGramas(sfs3);
+            var s4 = converterKgParaGramas(sfs4);
+
+            // Exibir recomendação de SFS em kg/ha e em g/plantas
+            document.getElementById('sfsPlantio').innerHTML = sfsPlan.toFixed(2) + " kg/ha" + ou + sPlan.toFixed(2) + " g/planta";
+            document.getElementById('sfsCresc').innerHTML = sfsCresc.toFixed(2) + " kg/ha" + ou + sCresc.toFixed(2) + " g/planta";
+            document.getElementById('sfs2').innerHTML = sfs2.toFixed(2) + " kg/ha" + ou + s2.toFixed(2) + " g/planta";
+            document.getElementById('sfs3').innerHTML = sfs3.toFixed(2) + " kg/ha" + ou + s3.toFixed(2) + " g/planta";
+            document.getElementById('sfs4').innerHTML = sfs4.toFixed(2) + " kg/ha" + ou + s4.toFixed(2) + " g/planta";
+
+
+
+
+
+
+
+            //Calculos  Superfosfato triplo(SFT)
+            //transformando de P para Superfosfato Triplo(kg/ha)
+
+            var sftPlan = converterDePparaSFT(msgPlanKilo);
+            var sftCresc = converterDePparaSFT(msgCrescKilo);
+            var sft2 = converterDePparaSFT(msg2Kilo);
+            var sft3 = converterDePparaSFT(msg3Kilo);
+            var sft4 = converterDePparaSFT(msg4Kilo);
+
+
+            //Conversao de Superfosfato triplo(SFT) de kg/ha para g/plantas
+            var tPlan = converterKgParaGramas(sftPlan);
+            var tCresc = converterKgParaGramas(sftCresc);
+            var t2 = converterKgParaGramas(sft2);
+            var t3 = converterKgParaGramas(sft3);
+            var t4 = converterKgParaGramas(sft4);
+
+
+
+            // Exibir recomendação de SFT em kg/ha e em g/plantas
+            document.getElementById('sftPlantio').innerHTML = sftPlan.toFixed(2) + " kg/ha" + ou + tPlan.toFixed(2) + " g/plantas";
+            document.getElementById('sftCresc').innerHTML = sftCresc.toFixed(2) + " kg/ha" + ou + tCresc.toFixed(2) + " g/plantas";
+            document.getElementById('sft2').innerHTML = sft2.toFixed(2) + " kg/ha" + ou + t2.toFixed(2) + " g/plantas";
+            document.getElementById('sft3').innerHTML = sft3.toFixed(2) + " kg/ha" + ou + t3.toFixed(2) + " g/plantas";
+            document.getElementById('sft4').innerHTML = sft4.toFixed(2) + " kg/ha" + ou + t4.toFixed(2) + " g/plantas";
+
+        }
+
+
+
+        function calcularPotassio() {
+            // obter valores dos campos de entrada
+            const aluminio = parseFloat(document.getElementById('aluminio').value);
+            const calcio = parseFloat(document.getElementById('calcio').value);
+            const magnesio = parseFloat(document.getElementById('magnesio').value);
+            const argila = parseFloat(document.getElementById('argila').value);
+            const prnt = parseFloat(document.getElementById('prnt').value);
+            const p = parseFloat(document.getElementById('p').value);
+            const k = parseFloat(document.getElementById('k').value);
+
+            var ou = "&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp";//variavel que guarda a formatação para o "ou"
+
+
+            // Dados recomendação de Potássio em kg/ha
             let kPlan = "";
             let kCresc = "";
             let k2 = "";
             let k3 = "";
             let k4 = "";
 
-
             if (k < 0.08) {
-                kPlan = "0";
-                kCresc = "60";
-                k2 = "80";
-                k3 = "120";
-                k4 = "180";
-
+                kPlan = 0;
+                kCresc = 60;
+                k2 = 80;
+                k3 = 120;
+                k4 = 180;
             } else if (k >= 0.08 && k <= 0.15) {
-                kPlan = "0";
-                kCresc = "40";
-                k2 = "60";
-                k3 = "80";
-                k4 = "120";
+                kPlan = 0;
+                kCresc = 40;
+                k2 = 60;
+                k3 = 80;
+                k4 = 120;
             } else if (k > 0.15) {
-                kPlan = "0";
-                kCresc = "30";
-                k2 = "40";
-                k3 = "60";
-                k4 = "60";
+                kPlan = 0;
+                kCresc = 30;
+                k2 = 40;
+                k3 = 60;
+                k4 = 60;
             }
 
 
-            // Conversão Dados recomendação de Potássio em kg/ha
-            let kPlanKilo = (kPlan * espacamento) / 1000;
-            let kCrescKilo = (kCresc * espacamento) / 1000;
-            let k2Kilo = (k2 * espacamento) / 1000;
-            let k3Kilo = (k3 * espacamento) / 1000;
-            let k4Kilo = (k4 * espacamento) / 1000;
+
+            //Conversao de potassio de g/plantas para kg/ha
+            let kPlanKilo = converterGparaKg(kPlan);
+            let kCrescKilo = converterGparaKg(kCresc);
+            let k2Kilo = converterGparaKg(k2);
+            let k3Kilo = converterGparaKg(k3);
+            let k4Kilo = converterGparaKg(k4);
 
             // Exibir recomendação de Potássio
-            document.getElementById('kPlantio').innerHTML = kPlan + "  g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + kPlanKilo.toFixed(2) + " kg/ha";
-            document.getElementById('kCresc').innerHTML = kCresc + " g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + kCrescKilo.toFixed(2) + " kg/ha";
-            document.getElementById('k2').innerHTML = k2 + "  g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + k2Kilo.toFixed(2) + " kg/ha";
-            document.getElementById('k3').innerHTML = k3 + "  g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + k3Kilo.toFixed(2) + " kg/ha";
-            document.getElementById('k4').innerHTML = k4 + "  g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + k4Kilo.toFixed(2) + " kg/ha";
+            document.getElementById('kPlantio').innerHTML = kPlan.toFixed(2) + "  g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + kPlanKilo.toFixed(2) + " kg/ha";
+            document.getElementById('kCresc').innerHTML = kCresc.toFixed(2) + " g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + kCrescKilo.toFixed(2) + " kg/ha";
+            document.getElementById('k2').innerHTML = k2.toFixed(2) + "  g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + k2Kilo.toFixed(2) + " kg/ha";
+            document.getElementById('k3').innerHTML = k3.toFixed(2) + "  g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + k3Kilo.toFixed(2) + " kg/ha";
+            document.getElementById('k4').innerHTML = k4.toFixed(2) + "  g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + k4Kilo.toFixed(2) + " kg/ha";
 
 
 
+
+
+            //Calculos tranformaando sulfato de potássio(SP)
+
+            var sp1 = converterKParaSulfato(kPlanKilo);
+            var sp2 = converterKParaSulfato(kCrescKilo);
+            var sp3 = converterKParaSulfato(k2Kilo);
+            var sp4 = converterKParaSulfato(k3Kilo);
+            var sp5 = converterKParaSulfato(k4Kilo);
+
+
+            //Conversao de sulfato de potássio(SP) de kg/ha para g/plantas
+            var sulfato1 = converterKgParaGramas(sp1);
+            var sulfato2 = converterKgParaGramas(sp2);
+            var sulfato3 = converterKgParaGramas(sp3);
+            var sulfato4 = converterKgParaGramas(sp4);
+            var sulfato5 = converterKgParaGramas(sp5);
+
+            // Exibir recomendação de sulafto de potassio
+            document.getElementById('sulfatoPlantio').innerHTML = sp1.toFixed(2) + " kg/ha" + ou + sulfato1.toFixed(2) + " g/planta";
+            document.getElementById('sulfatoCresc').innerHTML = sp2.toFixed(2) + " kg/ha" + ou + sulfato2.toFixed(2) + " g/planta";
+            document.getElementById('sulfato2').innerHTML = sp3.toFixed(2) + " kg/ha" + ou + sulfato3.toFixed(2) + " g/planta";
+            document.getElementById('sulfato3').innerHTML = sp4.toFixed(2) + " kg/ha" + ou + sulfato4.toFixed(2) + " g/planta";
+            document.getElementById('sulfato4').innerHTML = sp5.toFixed(2) + " kg/ha" + ou + sulfato5.toFixed(2) + " g/planta";
+
+
+
+
+
+
+            //Calculos cloreto de potássio(CP)
+            //transformando de Potassio(K) para cloreto de potássio(CP) em kg/ha
+            var cp1 = converterKparaCloreto(kPlanKilo);
+            var cp2 = converterKparaCloreto(kCrescKilo);
+            var cp3 = converterKparaCloreto(k2Kilo);
+            var cp4 = converterKparaCloreto(k3Kilo);
+            var cp5 = converterKparaCloreto(k4Kilo);
+
+
+
+            //Conversao de cloreto de potássio(CP) de kg/ha para g/plantas
+            var cloreto1 = converterKgParaGramas(cp1);
+            var cloreto2 = converterKgParaGramas(cp2);
+            var cloreto3 = converterKgParaGramas(cp3);
+            var cloreto4 = converterKgParaGramas(cp4);
+            var cloreto5 = converterKgParaGramas(cp5);
+
+
+            // Exibir recomendação de cloreto de potassio
+            document.getElementById('cloretoPlantio').innerHTML = sp1.toFixed(2) + " kg/ha" + ou + sulfato1.toFixed(2) + " g/planta";
+            document.getElementById('cloretoCresc').innerHTML = sp2.toFixed(2) + " kg/ha" + ou + sulfato2.toFixed(2) + " g/planta";
+            document.getElementById('cloreto2').innerHTML = sp3.toFixed(2) + " kg/ha" + ou + sulfato3.toFixed(2) + " g/planta";
+            document.getElementById('cloreto3').innerHTML = sp4.toFixed(2) + " kg/ha" + ou + sulfato4.toFixed(2) + " g/planta";
+            document.getElementById('cloreto4').innerHTML = sp5.toFixed(2) + " kg/ha" + ou + sulfato5.toFixed(2) + " g/planta";
         }
+
 
         function armazenarValor() {
             // Obtém o valor selecionado pelo usuário
@@ -419,7 +791,68 @@
                 location.reload();
             });
 
+
         }
+
+
+        function mostrarDivNitrogenio(opcao) {
+            // Oculta todas as divs exceto a div de calagem
+            var divNitrogenio = document.getElementById('nitrogenio');
+            var divUreia = document.getElementById('ureia');
+            var divSulfatoAmonio = document.getElementById('sulfatoAmonio');
+            divNitrogenio.style.display = 'none';
+            divUreia.style.display = 'none';
+            divSulfatoAmonio.style.display = 'none';
+
+            // Mostra a div correspondente à opção selecionada
+            if (opcao === "2") {
+                divUreia.style.display = 'block';
+            } else if (opcao === "3") {
+                divSulfatoAmonio.style.display = 'block';
+            } else {
+                divNitrogenio.style.display = 'block';
+            }
+        }
+
+        function mostrarDivFosforo(opcao) {
+            // Oculta todas as divs exceto a div de calagem
+            var divFosforo = document.getElementById('fosforo');
+            var divSFS = document.getElementById('SFS');
+            var divSFT = document.getElementById('SFT');
+            divFosforo.style.display = 'none';
+            divSFS.style.display = 'none';
+            divSFT.style.display = 'none';
+
+            // Mostra a div correspondente à opção selecionada
+            if (opcao === "2") {
+                divSFS.style.display = 'block';
+            } else if (opcao === "3") {
+                divSFT.style.display = 'block';
+            } else {
+                divFosforo.style.display = 'block';
+            }
+        }
+
+        function mostrarDivPotassio(opcao) {
+            // Oculta todas as divs exceto a div de calagem
+            var divPotassio = document.getElementById('potassio');
+            var divSulfatoPotassio = document.getElementById('sulfatoPotassio');
+            var divCloretoPotassio = document.getElementById('cloretoPotassio');
+            divPotassio.style.display = 'none';
+            divSulfatoPotassio.style.display = 'none';
+            divCloretoPotassio.style.display = 'none';
+
+            // Mostra a div correspondente à opção selecionada
+            if (opcao === "2") {
+                divSulfatoPotassio.style.display = 'block';
+            } else if (opcao === "3") {
+                divCloretoPotassio.style.display = 'block';
+            } else {
+                divPotassio.style.display = 'block';
+            }
+        }
+
+
     </script>
 
 </body>

@@ -1,92 +1,96 @@
 .centralizado {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .div-container {
-    display: none;
-    margin-top: 10px;
-    padding: 10px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-  #calcBotao {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 200px;
-    /* Defina a largura desejada */
-    height: 40px;
-    font-size: 20px;
-    justify-content: center;
-    margin: 0 auto;
-    margin-top: 0px;
+.div-container {
+  display: none;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+}
 
-  }
+#calcBotao {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  /* Defina a largura desejada */
+  height: 40px;
+  font-size: 20px;
+  justify-content: center;
+  margin: 0 auto;
+  margin-top: 0px;
 
-  #botaoRecarregar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 200px;
-    /* Defina a largura desejada */
-    height: 50px;
-    font-size: 17px;
-    justify-content: center;
-    margin: 0 auto;
-    margin-top: 0px;
-  }
+}
 
-  .escondida {
-    display: none;
-  }
+#botaoRecarregar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  /* Defina a largura desejada */
+  height: 50px;
+  font-size: 17px;
+  justify-content: center;
+  margin: 0 auto;
+  margin-top: 0px;
+}
 
-  .card {
-    margin: auto;
-    width: 300px;
-    background-color: #f0f0f0;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
+.escondida {
+  display: none;
+}
 
-  #calagem {
-    text-align: center;
-    font-size: x-large;
-    color: white;
-    background-color: rgb(22, 211, 22);
+.card {
+  margin: auto;
+  width: 300px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
 
-  }
+#calagem {
+  text-align: center;
+  font-size: x-large;
+  color: white;
+  background-color: rgb(22, 211, 22);
 
-  #calcario {
-    text-align: center;
-    font-size: larger;
-  }
+}
 
-  #botoes,
-  #PDF {
-    text-align: center;
-  }
+#calcario {
+  text-align: center;
+  font-size: larger;
+}
 
-  #TituloOpcoes,#tituloResultado {
-    text-align: center;
-  }
+#botoes,
+#PDF {
+  text-align: center;
+}
 
-  #tituloFosforo,
-  #tituloPotássio,
-  #tituloNitro {
-    text-align: center;
-    font-size: large;
-    color: white;
-    background-color: rgb(22, 211, 22);
+#TituloOpcoes,
+#tituloResultado {
+  text-align: center;
+}
 
-  }
+#tituloFosforo,
+#tituloPotássio,
+#tituloNitro {
+  text-align: center;
+  font-size: large;
+  color: white;
+  background-color: rgb(22, 211, 22);
+
+}
 
 
-  #mes1-2, #mes8-9,#mes5-6 {
-    text-align: center;
-    font-size: larger;
+#mes1-2,
+#mes8-9,
+#mes5-6 {
+  text-align: center;
+  font-size: larger;
 
-  }
+}
