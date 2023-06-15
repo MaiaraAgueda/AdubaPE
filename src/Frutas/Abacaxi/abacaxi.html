@@ -120,16 +120,17 @@
     <!-- input dos dados -->
     <div id="minhaDiv">
         <h1>Recomendação de calagem e adubação</h1>
-        <h3>Por favor insira as informações abaixo que devem ser obtidas a partir da análise química do solo </h3>
+        <h3>Por favor insira as informações abaixo que devem ser obtidas a partir da análise química do solo. </h3>
+        <h6>As informações com * são obrigatórias.</h6>
         <form>
-            <label for="aluminio">Teor de alumínio (cmolc/dm³):</label>
+            <label for="aluminio">* Teor de alumínio (cmolc/dm³):</label>
             <input type="number" id="aluminio" name="aluminio" step="0.01" required placeholder="Campo obrigatório"><br>
             <br>
 
-            <label for="calcio">Teor de cálcio (cmolc/dm³):</label>
+            <label for="calcio">* Teor de cálcio (cmolc/dm³):</label>
             <input type="number" id="calcio" name="calcio" step="0.01" required placeholder="Campo obrigatório"><br>
             <br>
-            <label for="magnesio">Teor de magnésio (cmolc/dm³):</label>
+            <label for="magnesio">* Teor de magnésio (cmolc/dm³):</label>
             <input type="number" id="magnesio" name="magnesio" step="0.01" required placeholder="Campo obrigatório"><br>
             <br>
             <label for="argila">Percentagem de argila (%):</label>
@@ -138,15 +139,15 @@
             <label for="prnt">PRNT do calcário:</label>
             <input type="number" id="prnt" name="prnt" step="0.01" required placeholder="Valor padrão: 100"><br>
             <br>
-            <label for="p">Teor de fósforo (mg/dm³):</label>
+            <label for="p">* Teor de fósforo (mg/dm³):</label>
             <input type="number" id="p" name="p" step="0.01" required placeholder="Campo obrigatório"><br>
             <br>
-            <label for="k">Teor de potássio (cmolc/dm³):</label>
+            <label for="k">* Teor de potássio (cmolc/dm³):</label>
             <input type="number" id="k" name="k" step="0.01" required placeholder="Campo obrigatório"><br>
 
-            <h1>Escolha o espaçamento: <span id="numPlantas"></span></h1>
+            <h1>* Escolha o espaçamento: <span id="numPlantas"></span></h1>
             <label>
-                <input type="radio" name="opcao" value="37000" onclick="armazenarValor()"> 0,9 x 0,3 m
+                <input type="radio" name="opcao" value="37000" onclick="armazenarValor()" checked> 0,9 x 0,3 m
             </label>
             <label>
                 <input type="radio" name="opcao" value="38400" onclick="armazenarValor()"> 0,9 x 0,4 x 0,4 m
@@ -324,7 +325,7 @@
 
 
             // exibir resultado da Calagem
-            document.getElementById('calcario').innerHTML = calcario_necessario.toFixed(2) + " T/ha";
+            document.getElementById('calcario').innerHTML = calcario_necessario.toFixed(2) + " t/ha";
 
         }
 
@@ -343,12 +344,12 @@
             var n2 = (n5_6 * 1000) / espacamento;
             var n3 = (n8_9 * 1000) / espacamento;
 
-            var ou = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp";
+            var ou = "&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;";
 
             // Exibir recomendação de nitrogênio
-            document.getElementById('nitro1-2').innerHTML = n1_2 + " kg/ha" + ou + n1.toFixed(2) + " g/plantas";
-            document.getElementById('nitro5-6').innerHTML = n5_6 + " kg/ha" + ou + n2.toFixed(2) + " g/plantas";
-            document.getElementById('nitro8-9').innerHTML = n8_9 + " kg/ha" + ou + n3.toFixed(2) + " g/plantas";
+            document.getElementById('nitro1-2').innerHTML = n1_2 + " kg/ha" + ou + n1.toFixed(2) + " g/planta";
+            document.getElementById('nitro5-6').innerHTML = n5_6 + " kg/ha" + ou + n2.toFixed(2) + " g/planta";
+            document.getElementById('nitro8-9').innerHTML = n8_9 + " kg/ha" + ou + n3.toFixed(2) + " g/planta";
 
             //Calculos Ureia
             //transformando de N para Ureia(kg/ha)
@@ -364,9 +365,9 @@
             var u3 = (ureia3 * 1000) / espacamento;
 
             // Exibir recomendação de Ureia
-            document.getElementById('ureia1-2').innerHTML = ureia1.toFixed(2) + " kg/ha" + ou + u1.toFixed(2) + " g/plantas";
-            document.getElementById('ureia5-6').innerHTML = ureia2.toFixed(2) + " kg/ha" + ou + u2.toFixed(2) + " g/plantas";
-            document.getElementById('ureia8-9').innerHTML = ureia3.toFixed(2) + " kg/ha" + ou + u3.toFixed(2) + " g/plantas";
+            document.getElementById('ureia1-2').innerHTML = ureia1.toFixed(2) + " kg/ha" + ou + u1.toFixed(2) + " g/planta";
+            document.getElementById('ureia5-6').innerHTML = ureia2.toFixed(2) + " kg/ha" + ou + u2.toFixed(2) + " g/planta";
+            document.getElementById('ureia8-9').innerHTML = ureia3.toFixed(2) + " kg/ha" + ou + u3.toFixed(2) + " g/planta";
 
 
 
@@ -384,9 +385,9 @@
             var a3 = (amonia3 * 1000) / espacamento;
 
             // Exibir recomendação de sulfato de amônio
-            document.getElementById('amonio1').innerHTML = amonia1.toFixed(2) + " kg/ha" + ou + a1.toFixed(2) + " g/plantas";
-            document.getElementById('amonio2').innerHTML = amonia2.toFixed(2) + " kg/ha" + ou + a2.toFixed(2) + " g/plantas";
-            document.getElementById('amonio3').innerHTML = amonia3.toFixed(2) + " kg/ha" + ou + a3.toFixed(2) + " g/plantas";
+            document.getElementById('amonio1').innerHTML = amonia1.toFixed(2) + " kg/ha" + ou + a1.toFixed(2) + " g/planta";
+            document.getElementById('amonio2').innerHTML = amonia2.toFixed(2) + " kg/ha" + ou + a2.toFixed(2) + " g/planta";
+            document.getElementById('amonio3').innerHTML = amonia3.toFixed(2) + " kg/ha" + ou + a3.toFixed(2) + " g/planta";
 
 
         }
@@ -433,9 +434,9 @@
 
             // Exibir recomendação de fósforo em kg/ha e em g/plantas
 
-            document.getElementById('pmes1-2').innerHTML = msg1_2 + " kg/ha" + ou + p1.toFixed(2) + " g/plantas";
-            document.getElementById('pmes5-6').innerHTML = msg5_6 + " kg/ha" + ou + p2.toFixed(2) + " g/plantas";
-            document.getElementById('pmes8-9').innerHTML = msg8_9 + " kg/ha" + ou + p3.toFixed(2) + " g/plantas";
+            document.getElementById('pmes1-2').innerHTML = msg1_2 + " kg/ha" + ou + p1.toFixed(2) + " g/planta";
+            document.getElementById('pmes5-6').innerHTML = msg5_6 + " kg/ha" + ou + p2.toFixed(2) + " g/planta";
+            document.getElementById('pmes8-9').innerHTML = msg8_9 + " kg/ha" + ou + p3.toFixed(2) + " g/planta";
 
 
             //Calculos  Superfosfato Simples(SFS)
@@ -452,9 +453,9 @@
 
 
             // Exibir recomendação de SFS em kg/ha e em g/plantas
-            document.getElementById('sfs1').innerHTML = sfs1.toFixed(2) + " kg/ha" + ou + s1.toFixed(2) + " g/plantas";
-            document.getElementById('sfs2').innerHTML = sfs2.toFixed(2) + " kg/ha" + ou + s2.toFixed(2) + " g/plantas";
-            document.getElementById('sfs3').innerHTML = sfs3.toFixed(2) + " kg/ha" + ou + s3.toFixed(2) + " g/plantas";
+            document.getElementById('sfs1').innerHTML = sfs1.toFixed(2) + " kg/ha" + ou + s1.toFixed(2) + " g/planta";
+            document.getElementById('sfs2').innerHTML = sfs2.toFixed(2) + " kg/ha" + ou + s2.toFixed(2) + " g/planta";
+            document.getElementById('sfs3').innerHTML = sfs3.toFixed(2) + " kg/ha" + ou + s3.toFixed(2) + " g/planta";
 
 
             //Calculos  Superfosfato triplo(SFT)
@@ -472,9 +473,9 @@
 
 
             // Exibir recomendação de SFT em kg/ha e em g/plantas
-            document.getElementById('sft1').innerHTML = sft1.toFixed(2) + " kg/ha" + ou + t1.toFixed(2) + " g/plantas";
-            document.getElementById('sft2').innerHTML = sft2.toFixed(2) + " kg/ha" + ou + t2.toFixed(2) + " g/plantas";
-            document.getElementById('sft3').innerHTML = sft3.toFixed(2) + " kg/ha" + ou + t3.toFixed(2) + " g/plantas";
+            document.getElementById('sft1').innerHTML = sft1.toFixed(2) + " kg/ha" + ou + t1.toFixed(2) + " g/planta";
+            document.getElementById('sft2').innerHTML = sft2.toFixed(2) + " kg/ha" + ou + t2.toFixed(2) + " g/planta";
+            document.getElementById('sft3').innerHTML = sft3.toFixed(2) + " kg/ha" + ou + t3.toFixed(2) + " g/planta";
 
         }
 
@@ -519,9 +520,9 @@
             var k3 = (Kmsg8_9 * 1000) / espacamento;
 
             // Exibir recomendação de Potássio
-            document.getElementById('kmes1-2').innerHTML = Kmsg1_2.toFixed(2) + " kg/ha" + ou + k1.toFixed(2) + " g/plantas";
-            document.getElementById('kmes5-6').innerHTML = Kmsg5_6.toFixed(2) + " kg/ha" + ou + k2.toFixed(2) + " g/plantas";
-            document.getElementById('kmes8-9').innerHTML = Kmsg8_9.toFixed(2) + " kg/ha" + ou + k3.toFixed(2) + " g/plantas";
+            document.getElementById('kmes1-2').innerHTML = Kmsg1_2.toFixed(2) + " kg/ha" + ou + k1.toFixed(2) + " g/planta";
+            document.getElementById('kmes5-6').innerHTML = Kmsg5_6.toFixed(2) + " kg/ha" + ou + k2.toFixed(2) + " g/planta";
+            document.getElementById('kmes8-9').innerHTML = Kmsg8_9.toFixed(2) + " kg/ha" + ou + k3.toFixed(2) + " g/planta";
 
 
 
@@ -538,9 +539,9 @@
             var sulfato3 = (sp3 * 1000) / espacamento;
 
             // Exibir recomendação de sulafto de potassio
-            document.getElementById('sulfato1').innerHTML = sp1.toFixed(2) + " kg/ha" + ou + sulfato1.toFixed(2) + " g/plantas";
-            document.getElementById('sulfato2').innerHTML = sp2.toFixed(2) + " kg/ha" + ou + sulfato2.toFixed(2) + " g/plantas";
-            document.getElementById('sulfato3').innerHTML = sp3.toFixed(2) + " kg/ha" + ou + sulfato3.toFixed(2) + " g/plantas";
+            document.getElementById('sulfato1').innerHTML = sp1.toFixed(2) + " kg/ha" + ou + sulfato1.toFixed(2) + " g/planta";
+            document.getElementById('sulfato2').innerHTML = sp2.toFixed(2) + " kg/ha" + ou + sulfato2.toFixed(2) + " g/planta";
+            document.getElementById('sulfato3').innerHTML = sp3.toFixed(2) + " kg/ha" + ou + sulfato3.toFixed(2) + " g/planta";
 
 
             //Calculos cloreto de potássio(CP)
@@ -556,9 +557,9 @@
             var cloreto3 = (cp3 * 1000) / espacamento;
 
             // Exibir recomendação de sulafto de potassio
-            document.getElementById('cloreto1').innerHTML = cp1.toFixed(2) + " kg/ha" + ou + cloreto1.toFixed(2) + " g/plantas";
-            document.getElementById('cloreto2').innerHTML = cp2.toFixed(2) + " kg/ha" + ou + cloreto2.toFixed(2) + " g/plantas";
-            document.getElementById('cloreto3').innerHTML = cp3.toFixed(2) + " kg/ha" + ou + cloreto3.toFixed(2) + " g/plantas";
+            document.getElementById('cloreto1').innerHTML = cp1.toFixed(2) + " kg/ha" + ou + cloreto1.toFixed(2) + " g/planta";
+            document.getElementById('cloreto2').innerHTML = cp2.toFixed(2) + " kg/ha" + ou + cloreto2.toFixed(2) + " g/planta";
+            document.getElementById('cloreto3').innerHTML = cp3.toFixed(2) + " kg/ha" + ou + cloreto3.toFixed(2) + " g/planta";
         }
 
         function armazenarValor() {

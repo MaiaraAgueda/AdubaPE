@@ -110,16 +110,17 @@
     <!-- input dos dados -->
     <div id="minhaDiv">
         <h1>Recomendação de calagem e adubação</h1>
-        <h3>Por favor insira as informações abaixo que devem ser obtidas a partir da análise química do solo </h3>
+        <h3>Por favor insira as informações abaixo que devem ser obtidas a partir da análise química do solo. </h3>
+        <h6>As informações com * são obrigatórias.</h6>
         <form>
-            <label for="aluminio">Teor de alumínio (cmolc/dm³):</label>
+            <label for="aluminio">* Teor de alumínio (cmolc/dm³):</label>
             <input type="number" id="aluminio" name="aluminio" step="0.01" required placeholder="Campo obrigatório"><br>
             <br>
 
-            <label for="calcio">Teor de cálcio (cmolc/dm³):</label>
+            <label for="calcio">* Teor de cálcio (cmolc/dm³):</label>
             <input type="number" id="calcio" name="calcio" step="0.01" required placeholder="Campo obrigatório"><br>
             <br>
-            <label for="magnesio">Teor de magnésio (cmolc/dm³):</label>
+            <label for="magnesio">* Teor de magnésio (cmolc/dm³):</label>
             <input type="number" id="magnesio" name="magnesio" step="0.01" required placeholder="Campo obrigatório"><br>
             <br>
             <label for="argila">Percentagem de argila (%):</label>
@@ -129,16 +130,16 @@
             <label for="prnt">PRNT do calcário:</label>
             <input type="number" id="prnt" name="prnt" step="0.01" required placeholder="Valor padrão: 100"><br>
             <br>
-            <label for="p">Teor de fósforo (mg/dm³):</label>
+            <label for="p">* Teor de fósforo (mg/dm³):</label>
             <input type="number" id="p" name="p" step="0.01" required placeholder="Campo obrigatório"><br>
             <br>
-            <label for="k">Teor de potássio (cmolc/dm³):</label>
+            <label for="k">* Teor de potássio (cmolc/dm³):</label>
             <input type="number" id="k" name="k" step="0.01" required placeholder="Campo obrigatório"><br>
 
             <h1>Escolha o espaçamento: <span id="numPlantas"></span></h1>
 
             <label>
-                <input type="radio" name="opcao" value="333" onclick="armazenarValor()"> 6 x 5 m
+                <input type="radio" name="opcao" value="333" onclick="armazenarValor()" checked> 6 x 5 m
             </label>
             <label>
                 <input type="radio" name="opcao" value="277" onclick="armazenarValor()"> 6 x 6 m
@@ -339,7 +340,7 @@
 
 
                 // exibir resultado da Calagem
-                document.getElementById('calcario').innerHTML = calcario_necessario.toFixed(2) + " T/ha";
+                document.getElementById('calcario').innerHTML = calcario_necessario.toFixed(2) + " t/ha";
 
             }
 
@@ -417,7 +418,7 @@
 
             function calcularNitrogenio() {
                 //Calculos Nitrogenio
-                // Dados recomendação de nitrogênio em g/plantas
+                // Dados recomendação de nitrogênio em g/planta
                 const nPlantio = 0;
                 const nCrescimento = 100;
                 const n1 = 150;
@@ -425,7 +426,7 @@
                 const n3 = 250;
 
 
-                //Conversao de nitrogênio de g/plantas para kg/ha
+                //Conversao de nitrogênio de g/planta para kg/ha
 
                 var nPlantioKg = converterGparaKg(nPlantio);
                 var nCrescKg = converterGparaKg(nCrescimento);
@@ -605,11 +606,11 @@
 
 
                 // Exibir recomendação de SFT em kg/ha e em g/plantas
-                document.getElementById('sftPlantio').innerHTML = sftPlan.toFixed(2) + " kg/ha" + ou + tPlan.toFixed(2) + " g/plantas";
-                document.getElementById('sftCresc').innerHTML = sftCresc.toFixed(2) + " kg/ha" + ou + tCresc.toFixed(2) + " g/plantas";
-                document.getElementById('sft2').innerHTML = sft2.toFixed(2) + " kg/ha" + ou + t2.toFixed(2) + " g/plantas";
-                document.getElementById('sft3').innerHTML = sft3.toFixed(2) + " kg/ha" + ou + t3.toFixed(2) + " g/plantas";
-                document.getElementById('sft4').innerHTML = sft4.toFixed(2) + " kg/ha" + ou + t4.toFixed(2) + " g/plantas";
+                document.getElementById('sftPlantio').innerHTML = sftPlan.toFixed(2) + " kg/ha" + ou + tPlan.toFixed(2) + " g/planta";
+                document.getElementById('sftCresc').innerHTML = sftCresc.toFixed(2) + " kg/ha" + ou + tCresc.toFixed(2) + " g/planta";
+                document.getElementById('sft2').innerHTML = sft2.toFixed(2) + " kg/ha" + ou + t2.toFixed(2) + " g/planta";
+                document.getElementById('sft3').innerHTML = sft3.toFixed(2) + " kg/ha" + ou + t3.toFixed(2) + " g/planta";
+                document.getElementById('sft4').innerHTML = sft4.toFixed(2) + " kg/ha" + ou + t4.toFixed(2) + " g/planta";
 
             }
 
@@ -672,13 +673,16 @@
                 let k4Kilo = converterGparaKg(k4);
 
                 // Exibir recomendação de Potássio
-                document.getElementById('kPlantio').innerHTML = kPlan.toFixed(2) + "  g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + kPlanKilo.toFixed(2) + " kg/ha";
-                document.getElementById('kCresc').innerHTML = kCresc.toFixed(2) + " g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + kCrescKilo.toFixed(2) + " kg/ha";
-                document.getElementById('k2').innerHTML = k2.toFixed(2) + "  g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + k2Kilo.toFixed(2) + " kg/ha";
-                document.getElementById('k3').innerHTML = k3.toFixed(2) + "  g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + k3Kilo.toFixed(2) + " kg/ha";
-                document.getElementById('k4').innerHTML = k4.toFixed(2) + "  g/plantas" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + k4Kilo.toFixed(2) + " kg/ha";
+                document.getElementById('kPlantio').innerHTML = kPlanKilo.toFixed(2) + " kg/ha" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + kPlan.toFixed(2) + "  g/plantas";
 
 
+                document.getElementById('kCresc').innerHTML = kCrescKilo.toFixed(2) + " kg/ha" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + kCresc.toFixed(2) + " g/plantas";
+
+                document.getElementById('k2').innerHTML = k2Kilo.toFixed(2) + " kg/ha" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + k2.toFixed(2) + "  g/plantas";
+
+                document.getElementById('k3').innerHTML = k3Kilo.toFixed(2) + " kg/ha" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + k3.toFixed(2) + "  g/planta";
+
+                document.getElementById('k4').innerHTML = k4Kilo.toFixed(2) + " kg/ha" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + k4.toFixed(2) + "  g/planta";
 
 
 
@@ -729,11 +733,11 @@
 
 
                 // Exibir recomendação de cloreto de potassio
-                document.getElementById('cloretoPlantio').innerHTML = sp1.toFixed(2) + " kg/ha" + ou + cloreto1.toFixed(2) + " g/planta";
-                document.getElementById('cloretoCresc').innerHTML = sp2.toFixed(2) + " kg/ha" + ou + cloreto2.toFixed(2) + " g/planta";
-                document.getElementById('cloreto2').innerHTML = sp3.toFixed(2) + " kg/ha" + ou + cloreto3.toFixed(2) + " g/planta";
-                document.getElementById('cloreto3').innerHTML = sp4.toFixed(2) + " kg/ha" + ou + cloreto4.toFixed(2) + " g/planta";
-                document.getElementById('cloreto4').innerHTML = sp5.toFixed(2) + " kg/ha" + ou + cloreto5.toFixed(2) + " g/planta";
+                document.getElementById('cloretoPlantio').innerHTML = cp1.toFixed(2) + " kg/ha" + ou + cloreto1.toFixed(2) + " g/planta";
+                document.getElementById('cloretoCresc').innerHTML = cp2.toFixed(2) + " kg/ha" + ou + cloreto2.toFixed(2) + " g/planta";
+                document.getElementById('cloreto2').innerHTML = cp3.toFixed(2) + " kg/ha" + ou + cloreto3.toFixed(2) + " g/planta";
+                document.getElementById('cloreto3').innerHTML = cp4.toFixed(2) + " kg/ha" + ou + cloreto4.toFixed(2) + " g/planta";
+                document.getElementById('cloreto4').innerHTML = cp5.toFixed(2) + " kg/ha" + ou + cloreto5.toFixed(2) + " g/planta";
             }
 
 
