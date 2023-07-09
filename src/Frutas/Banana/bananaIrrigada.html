@@ -117,6 +117,10 @@ Adaptar tudo do grupo 2
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
+
+        #espacamento {
+            display: block;
+        }
     </style>
 </head>
 <html>
@@ -152,8 +156,21 @@ Adaptar tudo do grupo 2
             <input type="number" id="k" name="k" step="0.01" required placeholder="Campo obrigatório"><br>
 
             <h1>Escolha o espaçamento: <span id="numPlantas"></span></h1>
+            <div id="espacamento">
+                <label>
+                    <input type="radio" name="opcao" value="1000" onclick="armazenarValor()" checked> 5 x 2 m(Pacovan)
+                    <input type="radio" name="opcao" value="1250" onclick="armazenarValor()"> 4 x 2 m (Prata-Anã e Maçã)
+                    <input type="radio" name="opcao" value="1333" onclick="armazenarValor()"> 3 x 2 m (Nanica)
+                    <input type="radio" name="opcao" value="1667" onclick="armazenarValor()"> 3 x 2,5 m (Nanicão e
+                    Grande Naine)
+                </label>
+            </div>
+
+
+            <h1>Escolha o tipo de solo: </h1>
             <label>
-                <input type="radio" name="opcao" value="1111" onclick="armazenarValor()" checked> 3 x 3 m
+                <input type="radio" name="solo" value="1" onclick="armazenarSolo()" checked> Arenoso
+                <input type="radio" name="solo" value="2" onclick="armazenarSolo()"> Argiloso
             </label>
 
             <br> <br>
@@ -183,7 +200,7 @@ Adaptar tudo do grupo 2
         <!-- Select do cultura Nanica e Nanicão-->
         <div id="selecao" class="card">
             <p id=" TituloOpcoes">Escolha a variadade da cultura</p>
-            <select id="tituloEscolha" onchange="mostrarDivGrupo(this.value)">
+            <select id="tituloEscolha" onchange="trocarDiv(this.value)">
                 <option value="1" selected>Nanica e Nanicão</option>
                 <option value="2">Pacovan, Prata - Anã e Maçã</option>
             </select>
@@ -192,7 +209,7 @@ Adaptar tudo do grupo 2
 
 
 
-        <div id="grupo1">
+        <div id="grupo1" style="display: none;">
             <h1>div 1</h1>
             <!-- Select do Nitrogenio-->
             <div id="selecao" class="card">
@@ -360,7 +377,7 @@ Adaptar tudo do grupo 2
 
         </div>
 
-        <div id="grupo2">
+        <div id="grupo2" style="display: none;">
             <h1>div 2</h1>
             <!-- Select do Nitrogenio-->
             <div id="selecao" class="card">
@@ -547,6 +564,7 @@ Adaptar tudo do grupo 2
             calcularFosforo();
             calcularPotassio();
             armazenarValor();
+            mostrarDivGrupo();
         }
 
         function calcularCalagem() {
@@ -675,87 +693,145 @@ Adaptar tudo do grupo 2
 
             var ou = "&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp";//variavel que guarda a formatação para o "ou"
 
-            // Dados recomendação de fosforo em kg/ha
-            let msgPlan = ""; //plantio
-            let msgCresc = ""; //crescimento
-            let msg2 = ""; // 2 ano
+            var solo = document.querySelector('input[name="solo"]:checked').value;
+
 
             //Variaveis que armazenam os teores de Fósforo
-            let teor1 = 9;
-            let teor2 = 15;
+            var teor1, teor2, teor3, teor4;
 
-            if (p < teor1) {
-                msgPlan = 40;
-                msgCresc = 0;
-                msg2 = 40;
-
-            } else if (p >= teor1 && p <= teor2) {
-                msgPlan = 30;
-                msgCresc = 0;
-                msg2 = 30;
-
-            } else if (p > teor2) {
-                msgPlan = 20;
-                msgCresc = 0;
-                msg2 = 20;
-
+            if (solo == 1) { // se o solo for 1 é arenoso
+                // Solo Arenoso
+                teor1 = 11;
+                teor2 = 20;
+                teor3 = 21;
+                teor4 = 40;
+            } else if (solo == 2) { // se não o solo for 1 é argiloso
+                // Solo Argiloso
+                teor1 = 6;
+                teor2 = 10;
+                teor3 = 11;
+                teor4 = 20;
             }
 
-            // Conversão recomendação de fosforo de kg/ha para  g/planta
-            let msgPlanGramas = converterKgParaGramas(msgPlan)
-            let msgCrescGramas = converterKgParaGramas(msgCresc)
-            let msg2Gramas = converterKgParaGramas(msg2)
+
+            // Dados recomendação de fosforo em g/tourceira
+            let msgPlan = "";
+            let msg60 = "";
+            let msg120 = "";
+            let msg180 = "";
+            let msg240 = "";
+            let msg300 = "";
+            let msg360 = "";
+            let msgProd = "";
+
+            if (p < teor1) {
+                msgPlan = 120;
+                msg60 = 0;
+                msg120 = 0;
+                msg180 = 0;
+                msg240 = 0;
+                msg300 = 0;
+                msg360 = 120;
+                msgProd = 120;
+            } else if (p >= teor1 && p <= teor2) {
+                msgPlan = 90;
+                msg60 = 0;
+                msg120 = 0;
+                msg180 = 0;
+                msg240 = 0;
+                msg300 = 0;
+                msg360 = 90;
+                msgProd = 90;
+            } else if (p >= teor3 && p <= teor4) {
+                msgPlan = 60;
+                msg60 = 0;
+                msg120 = 0;
+                msg180 = 0;
+                msg240 = 0;
+                msg300 = 0;
+                msg360 = 60;
+                msgProd = 60;
+            }else if (p > teor2){
+                msgPlan = 30;
+                msg60 = 0;
+                msg120 = 0;
+                msg180 = 0;
+                msg240 = 0;
+                msg300 = 0;
+                msg360 = 30;
+                msgProd = 30;
+            }
 
 
-            // Exibir recomendação de fósforo em kg/ha e em g/plantas
-            document.getElementById('pPlantio').innerHTML = msgPlan.toFixed(2) + " kg/ha" + ou + msgPlanGramas.toFixed(2) + " g/planta";
-            document.getElementById('pCresc').innerHTML = msgCresc.toFixed(2) + " kg/ha" + ou + msgCrescGramas.toFixed(2) + "g/planta";
-            document.getElementById('p2').innerHTML = msg2.toFixed(2) + " kg/ha" + ou + msg2Gramas.toFixed(2) + " g/planta";
 
+            var unidade = " g/tourceira"
+            // Exibir recomendação de fósforo
+            document.getElementById('fosPlantio').innerHTML = msgPlan.toFixed(2) + unidade;
+
+            document.getElementById('fos60').innerHTML = msg60.toFixed(2) + unidade;
+            document.getElementById('fos120').innerHTML = msg120.toFixed(2) + unidade;
+            document.getElementById('fos180').innerHTML = msg180.toFixed(2) + unidade;
+
+            document.getElementById('fos240').innerHTML = msg240.toFixed(2) + unidade;
+            document.getElementById('fos300').innerHTML = msg300.toFixed(2) + unidade;
+            document.getElementById('fos360').innerHTML = msg360.toFixed(2) + unidade;
+
+            document.getElementById('fosProd').innerHTML = msgProd.toFixed(2) + unidade;
 
 
             //Calculos  Superfosfato Simples(SFS)
             //transformando de P para Superfosfato Simples(kg/ha)
 
             var sfsPlan = converterDePparaSFS(msgPlan);
-            var sfsCresc = converterDePparaSFS(msgCresc);
-            var sfs2 = converterDePparaSFS(msg2);
-
-            //Conversao de Superfosfato Simples(SFS) de kg/ha para g/plantas
-            var sPlan = converterKgParaGramas(sfsPlan);
-            var sCresc = converterKgParaGramas(sfsCresc);
-            var s2 = converterKgParaGramas(sfs2);
-
-            // Exibir recomendação de SFS em kg/ha e em g/plantas
-            document.getElementById('sfsPlantio').innerHTML = sfsPlan.toFixed(2) + " kg/ha" + ou + sPlan.toFixed(2) + " g/planta";
-            document.getElementById('sfsCresc').innerHTML = sfsCresc.toFixed(2) + " kg/ha" + ou + sCresc.toFixed(2) + " g/planta";
-            document.getElementById('sfs2').innerHTML = sfs2.toFixed(2) + " kg/ha" + ou + s2.toFixed(2) + " g/planta";
+            var sfs60 = converterDePparaSFS(msg60);
+            var sfs120 = converterDePparaSFS(msg120);
+            var sfs180 = converterDePparaSFS(msg180);
+            var sfs240 = converterDePparaSFS(msg240);
+            var sfs300 = converterDePparaSFS(msg300);
+            var sfs360 = converterDePparaSFS(msg360);
+            var sfsProd = converterDePparaSFS(msgProd);
 
 
 
+            // Exibir recomendação de SFS
+            document.getElementById('sfsPlantio').innerHTML = sfsPlan.toFixed(2) + unidade;
 
+            document.getElementById('sfs60').innerHTML = sfs60.toFixed(2) + unidade;
+            document.getElementById('sfs120').innerHTML = sfs120.toFixed(2) + unidade;
+            document.getElementById('sfs180').innerHTML = sfs180.toFixed(2) + unidade;
 
+            document.getElementById('sfs240').innerHTML = sfs240.toFixed(2) + unidade;
+            document.getElementById('sfs300').innerHTML = sfs300.toFixed(2) + unidade;
+            document.getElementById('sfs360').innerHTML = sfs360.toFixed(2) + unidade;
 
+            document.getElementById('sfsProd').innerHTML = sfsProd.toFixed(2) + unidade;
 
             //Calculos  Superfosfato triplo(SFT)
             //transformando de P para Superfosfato Triplo(kg/ha)
 
             var sftPlan = converterDePparaSFT(msgPlan);
-            var sftCresc = converterDePparaSFT(msgCresc);
-            var sft2 = converterDePparaSFT(msg2);
+            var sft60 = converterDePparaSFT(msg60);
+            var sft120 = converterDePparaSFT(msg120);
+            var sft180 = converterDePparaSFT(msg180);
+            var sft240 = converterDePparaSFT(msg240);
+            var sft300 = converterDePparaSFT(msg300);
+            var sft360 = converterDePparaSFT(msg360);
+            var sftProd = converterDePparaSFT(msgProd);
 
 
-            //Conversao de Superfosfato triplo(SFT) de kg/ha para g/plantas
-            var tPlan = converterKgParaGramas(sftPlan);
-            var tCresc = converterKgParaGramas(sftCresc);
-            var t2 = converterKgParaGramas(sft2);
 
+            // Exibir recomendação de SFT 
+            document.getElementById('sftPlantio').innerHTML = sftPlan.toFixed(2) + unidade;
 
+            document.getElementById('sft60').innerHTML = sft60.toFixed(2) + unidade;
+            document.getElementById('sft120').innerHTML = sft120.toFixed(2) + unidade;
+            document.getElementById('sft180').innerHTML = sft180.toFixed(2) + unidade;
 
-            // Exibir recomendação de SFT em kg/ha e em g/plantas
-            document.getElementById('sftPlantio').innerHTML = sftPlan.toFixed(2) + " kg/ha" + ou + tPlan.toFixed(2) + " g/planta";
-            document.getElementById('sftCresc').innerHTML = sftCresc.toFixed(2) + " kg/ha" + ou + tCresc.toFixed(2) + " g/planta";
-            document.getElementById('sft2').innerHTML = sft2.toFixed(2) + " kg/ha" + ou + t2.toFixed(2) + " g/planta";
+            document.getElementById('sft240').innerHTML = sft240.toFixed(2) + unidade;
+            document.getElementById('sft300').innerHTML = sft300.toFixed(2) + unidade;
+            document.getElementById('sft360').innerHTML = sft360.toFixed(2) + unidade;
+
+            document.getElementById('sftProd').innerHTML = sftProd.toFixed(2) + unidade;
 
         }
 
@@ -865,6 +941,12 @@ Adaptar tudo do grupo 2
 
             // Armazena o valor em uma variável ou faz qualquer outra ação necessária
             document.getElementById('numPlantas').innerHTML = opcaoSelecionada + " pl/ha";
+        }
+
+        function armazenarSolo() {
+            // Obtém o valor selecionado pelo usuário
+            var opcaoSelecionada = document.querySelector('input[name="solo"]:checked').value;
+
         }
 
         //Funções do grupo 2 (Pacovan, Prata - Anã e Maçã)
@@ -1007,21 +1089,29 @@ Adaptar tudo do grupo 2
 
 
         }
+       
         function mostrarDivGrupo(opcao) {
             // Oculta todas as divs exceto a div de calagem
             var divGrupo1 = document.getElementById('grupo1');
             var divGrupo2 = document.getElementById('grupo2');
-            divGrupo1.style.display = 'none';
+            divGrupo1.style.display = 'block';
             divGrupo2.style.display = 'none';
+        }
 
-            // Mostra a div correspondente à opção selecionada
+        function trocarDiv(opcao) {
+            var divGrupo1 = document.getElementById('grupo1');
+            var divGrupo2 = document.getElementById('grupo2');
+
             if (opcao === "1") {
                 divGrupo1.style.display = 'block';
+                divGrupo2.style.display = 'none';
             } else if (opcao === "2") {
+                divGrupo1.style.display = 'none';
                 divGrupo2.style.display = 'block';
             }
-
         }
+
+        
 
         function mostrarDivNitrogenio(opcao) {
             // Oculta todas as divs exceto a div de calagem
