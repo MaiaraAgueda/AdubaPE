@@ -199,9 +199,10 @@ Adaptar tudo do grupo 2
 
         <!-- Select do cultura Nanica e Nanicão-->
         <div id="selecao" class="card">
-            <p id=" TituloOpcoes">Escolha a variadade da cultura</p>
+            <p id=" TituloOpcoes">Escolha a variadade da cultura que deseja vizualizar</p>
             <select id="tituloEscolha" onchange="trocarDiv(this.value)">
-                <option value="1" selected>Nanica e Nanicão</option>
+                <option value="0" selected>Selecione a variadade</option>
+                <option value="1">Nanica e Nanicão</option>
                 <option value="2">Pacovan, Prata - Anã e Maçã</option>
             </select>
         </div> <br><br>
@@ -210,7 +211,6 @@ Adaptar tudo do grupo 2
 
 
         <div id="grupo1" style="display: none;">
-            <h1>div 1</h1>
             <!-- Select do Nitrogenio-->
             <div id="selecao" class="card">
                 <select id="tituloNitro" onchange="mostrarDivNitrogenio(this.value)">
@@ -362,23 +362,22 @@ Adaptar tudo do grupo 2
 
             <!-- Resultados Cloreto de potássio-->
             <div id="cloretoPotassio" class="card" style="display: none;">
-                <p id="teores">Pantio <br> <span id="cloretoPlantio"></span></p>
+                <p id="teores">Pantio <br> <span id="cpPlantio"></span></p>
 
-                <p id="teores">60 dias<br><span id="cloreto60"></span></p><br>
-                <p id="teores">120 dias<br><span id="cloreto120"></span></p><br>
-                <p id="teores">180 dias <br> <span id="cloreto180"></span></p><br>
-                <p id="teores">240 dias<br><span id="cloreto240"></span></p><br>
-                <p id="teores">300 dias<br><span id="cloreto300"></span></p><br>
-                <p id="teores">360 dias <br> <span id="cloreto360"></span></p><br>
+                <p id="teores">60 dias<br><span id="cp60"></span></p><br>
+                <p id="teores">120 dias<br><span id="cp120"></span></p><br>
+                <p id="teores">180 dias <br> <span id="cp180"></span></p><br>
+                <p id="teores">240 dias<br><span id="cp240"></span></p><br>
+                <p id="teores">300 dias<br><span id="cp300"></span></p><br>
+                <p id="teores">360 dias <br> <span id="cp360"></span></p><br>
 
-                <p id="teores">Produção<br><span id="cloretoProd"></span></p><br>
+                <p id="teores">Produção<br><span id="cpProd"></span></p><br>
 
             </div>
 
         </div>
 
         <div id="grupo2" style="display: none;">
-            <h1>div 2</h1>
             <!-- Select do Nitrogenio-->
             <div id="selecao" class="card">
                 <select id="tituloNitro" onchange="mostrarDivNitrogenio(this.value)">
@@ -559,12 +558,8 @@ Adaptar tudo do grupo 2
 
     <script>
         function calcularEArmazenar() {
-            calcularCalagem();
-            calcularNitrogenio();
-            calcularFosforo();
-            calcularPotassio();
-            armazenarValor();
-            mostrarDivGrupo();
+
+            verificarCampos();
         }
 
         function calcularCalagem() {
@@ -751,7 +746,7 @@ Adaptar tudo do grupo 2
                 msg300 = 0;
                 msg360 = 60;
                 msgProd = 60;
-            }else if (p > teor2){
+            } else if (p > teor2) {
                 msgPlan = 30;
                 msg60 = 0;
                 msg120 = 0;
@@ -846,92 +841,127 @@ Adaptar tudo do grupo 2
             const k = parseFloat(document.getElementById('k').value);
 
             var ou = "&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp";//variavel que guarda a formatação para o "ou"
+            var unidade = " g/tourceira"
+            var solo = document.querySelector('input[name="solo"]:checked').value;
 
-            // Dados recomendação de Potássio em kg/ha
+
+            //Variaveis que armazenam os teores de Fósforo
+            var teor1 = 0.12;
+            var teor2 = 0.23;
+            var teor3 = 0.24;
+            var teor4 = 0.40;
+
+            // Dados recomendação de fosforo em g/tourceira
             let kPlan = "";
-            let kCresc = "";
-            let k2 = "";
+            let k60 = "";
+            let k120 = "";
+            let k180 = "";
+            let k240 = "";
+            let k300 = "";
+            let k360 = "";
+            let kProd = "";
 
-            //Variaveis que armazenam os teores de Potássio
-            let teor1 = 0.08;
-            let teor2 = 0.15;
-
-
-
-            if (k < teor1) {
-                kPlan = 0;
-                kCresc = 400;
-                k2 = 400;
-
-            } else if (k >= teor1 && k <= teor2) {
-                kPlan = 0;
-                kCresc = 300;
-                k2 = 300;
-
-            } else if (k > teor2) {
-                kPlan = 0;
-                kCresc = 150;
-                k2 = 150;
-
+            if (p < teor1) {
+                kPlan = 120;
+                k60 = 0;
+                k120 = 0;
+                k180 = 0;
+                k240 = 0;
+                k300 = 0;
+                k360 = 120;
+                kProd = 120;
+            } else if (p >= teor1 && p <= teor2) {
+                kPlan = 90;
+                k60 = 0;
+                k120 = 0;
+                k180 = 0;
+                k240 = 0;
+                k300 = 0;
+                k360 = 90;
+                kProd = 90;
+            } else if (p >= teor3 && p <= teor4) {
+                kPlan = 60;
+                k60 = 0;
+                k120 = 0;
+                k180 = 0;
+                k240 = 0;
+                k300 = 0;
+                k360 = 60;
+                kProd = 60;
+            } else if (p > teor2) {
+                kPlan = 30;
+                k60 = 0;
+                k120 = 0;
+                k180 = 0;
+                k240 = 0;
+                k300 = 0;
+                k360 = 30;
+                kProd = 30;
             }
 
-            //Conversao de potassio de kg/ha para g/plantas
-            let kPlanGramas = converterKgParaGramas(kPlan);
-            let kCrescGramas = converterKgParaGramas(kCresc);
-            let k2Gramas = converterKgParaGramas(k2);
+            // Exibir recomendação de potássio
+            document.getElementById('potPlantio').innerHTML = kPlan.toFixed(2) + unidade;
 
+            document.getElementById('pot60').innerHTML = k60.toFixed(2) + unidade;
+            document.getElementById('pot120').innerHTML = k120.toFixed(2) + unidade;
+            document.getElementById('pot180').innerHTML = k180.toFixed(2) + unidade;
 
-            // Exibir recomendação de Potássio
-            document.getElementById('kPlantio').innerHTML = kPlan.toFixed(2) + " kg/ha" + ou + kPlanGramas.toFixed(2) + "  g/plantas";
-            document.getElementById('kCresc').innerHTML = kCresc.toFixed(2) + " kg/ha" + ou + kCrescGramas.toFixed(2) + " g/plantas";
-            document.getElementById('k2').innerHTML = k2.toFixed(2) + " kg/ha" + ou + k2Gramas.toFixed(2) + "  g/plantas";
+            document.getElementById('pot240').innerHTML = k240.toFixed(2) + unidade;
+            document.getElementById('pot300').innerHTML = k300.toFixed(2) + unidade;
+            document.getElementById('pot360').innerHTML = k360.toFixed(2) + unidade;
+
+            document.getElementById('potProd').innerHTML = kProd.toFixed(2) + unidade;
 
 
             //Calculos tranformando sulfato de potássio(SP)
+            var spPlan = converterKParaSulfato(kPlan);
+            var sp60 = converterKParaSulfato(k60);
+            var sp120 = converterKParaSulfato(k120);
+            var sp180 = converterKParaSulfato(k180);
+            var sp240 = converterKParaSulfato(k240);
+            var sp300 = converterKParaSulfato(k300);
+            var sp360 = converterKParaSulfato(k360);
+            var spProd = converterKParaSulfato(kProd);
 
-            var sp1 = converterKParaSulfato(kPlan);
-            var sp2 = converterKParaSulfato(kCresc);
-            var sp3 = converterKParaSulfato(k2);
+            // Exibir recomendação de sulfato de potássio(SP)
+            document.getElementById('sulfatoPlantio').innerHTML = spPlan.toFixed(2) + unidade;
 
+            document.getElementById('sulfato60').innerHTML = sp60.toFixed(2) + unidade;
+            document.getElementById('sulfato120').innerHTML = sp120.toFixed(2) + unidade;
+            document.getElementById('sulfato180').innerHTML = sp180.toFixed(2) + unidade;
 
+            document.getElementById('sulfato240').innerHTML = sp240.toFixed(2) + unidade;
+            document.getElementById('sulfato300').innerHTML = sp300.toFixed(2) + unidade;
+            document.getElementById('sulfato360').innerHTML = sp360.toFixed(2) + unidade;
 
-            //Conversao de sulfato de potássio(SP) de kg/ha para g/plantas
-            var sulfato1 = converterKgParaGramas(sp1);
-            var sulfato2 = converterKgParaGramas(sp2);
-            var sulfato3 = converterKgParaGramas(sp3);
-
-
-            // Exibir recomendação de sulafto de potassio
-            document.getElementById('sulfatoPlantio').innerHTML = sp1.toFixed(2) + " kg/ha" + ou + sulfato1.toFixed(2) + " g/planta";
-            document.getElementById('sulfatoCresc').innerHTML = sp2.toFixed(2) + " kg/ha" + ou + sulfato2.toFixed(2) + " g/planta";
-            document.getElementById('sulfato2').innerHTML = sp3.toFixed(2) + " kg/ha" + ou + sulfato3.toFixed(2) + " g/planta";
-
-
-
+            document.getElementById('sulfatoProd').innerHTML = spProd.toFixed(2) + unidade;
 
 
 
             //Calculos cloreto de potássio(CP)
-            //transformando de Potassio(K) para cloreto de potássio(CP) em kg/ha
-            var cp1 = converterKparaCloreto(kPlan);
-            var cp2 = converterKparaCloreto(kCresc);
-            var cp3 = converterKparaCloreto(k2);
-
-
-
-
-            //Conversao de cloreto de potássio(CP) de kg/ha para g/plantas
-            var cloreto1 = converterKgParaGramas(cp1);
-            var cloreto2 = converterKgParaGramas(cp2);
-            var cloreto3 = converterKgParaGramas(cp3);
+            var cpPlan = converterKparaCloreto(kPlan);
+            var cp60 = converterKparaCloreto(k60);
+            var cp120 = converterKparaCloreto(k120);
+            var cp180 = converterKparaCloreto(k180);
+            var cp240 = converterKparaCloreto(k240);
+            var cp300 = converterKparaCloreto(k300);
+            var cp360 = converterKparaCloreto(k360);
+            var cpProd = converterKparaCloreto(kProd);
 
 
 
             // Exibir recomendação de cloreto de potassio
-            document.getElementById('cloretoPlantio').innerHTML = cp1.toFixed(2) + " kg/ha" + ou + cloreto1.toFixed(2) + " g/planta";
-            document.getElementById('cloretoCresc').innerHTML = cp2.toFixed(2) + " kg/ha" + ou + cloreto2.toFixed(2) + " g/planta";
-            document.getElementById('cloreto2').innerHTML = cp3.toFixed(2) + " kg/ha" + ou + cloreto3.toFixed(2) + " g/planta";
+            document.getElementById('cpPlantio').innerHTML = cpPlan.toFixed(2) + unidade;
 
+            document.getElementById('cp60').innerHTML = cp60.toFixed(2) + unidade;
+            document.getElementById('cp120').innerHTML = cp120.toFixed(2) + unidade;
+            document.getElementById('cp180').innerHTML = cp180.toFixed(2) + unidade;
+
+            document.getElementById('cp240').innerHTML = cp240.toFixed(2) + unidade;
+            document.getElementById('cp300').innerHTML = cp300.toFixed(2) + unidade;
+            document.getElementById('cp360').innerHTML = cp360.toFixed(2) + unidade;
+
+            document.getElementById('cpProd').innerHTML = cpProd.toFixed(2) + unidade;
 
         }
 
@@ -955,6 +985,376 @@ Adaptar tudo do grupo 2
 
 
         //FUNÇÕES DE CONVERSÕES
+
+        function calcularNitrogenio2() {
+            //Calculos Nitrogenio
+            // Dados recomendação de nitrogênio em  g touceira
+            const nPlantio = 0;
+            const n60 = 20;
+            const n120 = 30;
+            const n180 = 40;
+            const n240 = 80;
+            const n300 = 50;
+            const n360 = 50;
+            const nProd = 270;
+
+
+            var ou = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp;&nbsp";
+
+            var unidade = " g/tourceira"
+
+            // Exibir recomendação de nitrogênio
+            document.getElementById('2nitroPlantio').innerHTML = nPlantio.toFixed(2) + unidade;
+
+            document.getElementById('2nitro60').innerHTML = n60.toFixed(2) + unidade;
+            document.getElementById('2nitro120').innerHTML = n120.toFixed(2) + unidade;
+            document.getElementById('2nitro180').innerHTML = n180.toFixed(2) + unidade;
+
+            document.getElementById('2nitro240').innerHTML = n240.toFixed(2) + unidade;
+            document.getElementById('2nitro300').innerHTML = n300.toFixed(2) + unidade;
+            document.getElementById('2nitro360').innerHTML = n360.toFixed(2) + unidade;
+
+            document.getElementById('2nitroProd').innerHTML = nProd.toFixed(2) + unidade;
+
+
+            //Calculos Ureia
+            //transformando de N para Ureia(kg/ha)
+            var ureiaPlantio = converterParaUreia(nPlantio);
+            var u60 = converterParaUreia(n60);
+            var u120 = converterParaUreia(n120);
+            var u180 = converterParaUreia(n180);
+            var u240 = converterParaUreia(n240);
+            var u300 = converterParaUreia(n300);
+            var u360 = converterParaUreia(n360);
+            var ureiaProd = converterParaUreia(nProd);
+
+
+
+            // Exibir recomendação de Ureia
+            document.getElementById('2ureiaPlantio').innerHTML = ureiaPlantio.toFixed(2) + unidade;
+            document.getElementById('2ureia60').innerHTML = u60.toFixed(2) + unidade;
+            document.getElementById('2ureia120').innerHTML = u120.toFixed(2) + unidade;
+            document.getElementById('2ureia180').innerHTML = u180.toFixed(2) + unidade;
+            document.getElementById('2ureia240').innerHTML = u240.toFixed(2) + unidade;
+            document.getElementById('2ureia300').innerHTML = u300.toFixed(2) + unidade;
+            document.getElementById('2ureia360').innerHTML = u360.toFixed(2) + unidade;
+            document.getElementById('2ureiaProd').innerHTML = ureiaProd.toFixed(2) + unidade;
+
+
+            //Calculos Sulfato de amônio
+            //transformando de N para Sulfato de Amonio(kg/ha)
+            var aPlantio = converterParaSulfato(nPlantio);
+            var a60 = converterParaSulfato(n60);
+            var a120 = converterParaSulfato(n120);
+            var a180 = converterParaSulfato(n180);
+            var a240 = converterParaSulfato(n240);
+            var a300 = converterParaSulfato(n300);
+            var a360 = converterParaSulfato(n360);
+            var amonioProd = converterParaSulfato(nProd);
+
+
+
+            // Exibir recomendação de sulfato de amônio
+            document.getElementById('2amonioPlantio').innerHTML = aPlantio.toFixed(2) + unidade;
+            document.getElementById('2amonio60').innerHTML = a60.toFixed(2) + unidade;
+            document.getElementById('2amonio120').innerHTML = a120.toFixed(2) + unidade;
+            document.getElementById('2amonio180').innerHTML = a180.toFixed(2) + unidade;
+            document.getElementById('2amonio240').innerHTML = a240.toFixed(2) + unidade;
+            document.getElementById('2amonio300').innerHTML = a300.toFixed(2) + unidade;
+            document.getElementById('2amonio360').innerHTML = a360.toFixed(2) + unidade;
+            document.getElementById('2amonioProd').innerHTML = amonioProd.toFixed(2) + unidade;
+        }
+
+        function calcularFosforo2() {
+            // obter valores dos campos de entrada
+            const aluminio = parseFloat(document.getElementById('aluminio').value);
+            const calcio = parseFloat(document.getElementById('calcio').value);
+            const magnesio = parseFloat(document.getElementById('magnesio').value);
+            const argila = parseFloat(document.getElementById('argila').value);
+            const prnt = parseFloat(document.getElementById('prnt').value);
+            const p = parseFloat(document.getElementById('p').value);
+            const k = parseFloat(document.getElementById('k').value);
+
+            var ou = "&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp";//variavel que guarda a formatação para o "ou"
+
+            var solo = document.querySelector('input[name="solo"]:checked').value;
+
+
+            //Variaveis que armazenam os teores de Fósforo
+            var teor1, teor2, teor3, teor4;
+
+            if (solo == 1) { // se o solo for 1 é arenoso
+                // Solo Arenoso
+                teor1 = 11;
+                teor2 = 20;
+                teor3 = 21;
+                teor4 = 40;
+            } else if (solo == 2) { // se não o solo for 1 é argiloso
+                // Solo Argiloso
+                teor1 = 6;
+                teor2 = 10;
+                teor3 = 11;
+                teor4 = 20;
+            }
+
+
+            // Dados recomendação de fosforo em g/tourceira
+            let msgPlan = "";
+            let msg60 = "";
+            let msg120 = "";
+            let msg180 = "";
+            let msg240 = "";
+            let msg300 = "";
+            let msg360 = "";
+            let msgProd = "";
+
+            if (p < teor1) {
+                msgPlan = 120;
+                msg60 = 0;
+                msg120 = 0;
+                msg180 = 0;
+                msg240 = 0;
+                msg300 = 0;
+                msg360 = 120;
+                msgProd = 120;
+            } else if (p >= teor1 && p <= teor2) {
+                msgPlan = 90;
+                msg60 = 0;
+                msg120 = 0;
+                msg180 = 0;
+                msg240 = 0;
+                msg300 = 0;
+                msg360 = 90;
+                msgProd = 90;
+            } else if (p >= teor3 && p <= teor4) {
+                msgPlan = 60;
+                msg60 = 0;
+                msg120 = 0;
+                msg180 = 0;
+                msg240 = 0;
+                msg300 = 0;
+                msg360 = 60;
+                msgProd = 60;
+            } else if (p > teor2) {
+                msgPlan = 30;
+                msg60 = 0;
+                msg120 = 0;
+                msg180 = 0;
+                msg240 = 0;
+                msg300 = 0;
+                msg360 = 30;
+                msgProd = 30;
+            }
+
+
+
+            var unidade = " g/tourceira"
+            // Exibir recomendação de fósforo
+            document.getElementById('2fosPlantio').innerHTML = msgPlan.toFixed(2) + unidade;
+
+            document.getElementById('2fos60').innerHTML = msg60.toFixed(2) + unidade;
+            document.getElementById('2fos120').innerHTML = msg120.toFixed(2) + unidade;
+            document.getElementById('2fos180').innerHTML = msg180.toFixed(2) + unidade;
+
+            document.getElementById('2fos240').innerHTML = msg240.toFixed(2) + unidade;
+            document.getElementById('2fos300').innerHTML = msg300.toFixed(2) + unidade;
+            document.getElementById('2fos360').innerHTML = msg360.toFixed(2) + unidade;
+
+            document.getElementById('2fosProd').innerHTML = msgProd.toFixed(2) + unidade;
+
+
+            //Calculos  Superfosfato Simples(SFS)
+            //transformando de P para Superfosfato Simples(kg/ha)
+
+            var sfsPlan = converterDePparaSFS(msgPlan);
+            var sfs60 = converterDePparaSFS(msg60);
+            var sfs120 = converterDePparaSFS(msg120);
+            var sfs180 = converterDePparaSFS(msg180);
+            var sfs240 = converterDePparaSFS(msg240);
+            var sfs300 = converterDePparaSFS(msg300);
+            var sfs360 = converterDePparaSFS(msg360);
+            var sfsProd = converterDePparaSFS(msgProd);
+
+
+
+            // Exibir recomendação de SFS
+            document.getElementById('2sfsPlantio').innerHTML = sfsPlan.toFixed(2) + unidade;
+
+            document.getElementById('2sfs60').innerHTML = sfs60.toFixed(2) + unidade;
+            document.getElementById('2sfs120').innerHTML = sfs120.toFixed(2) + unidade;
+            document.getElementById('2sfs180').innerHTML = sfs180.toFixed(2) + unidade;
+
+            document.getElementById('2sfs240').innerHTML = sfs240.toFixed(2) + unidade;
+            document.getElementById('2sfs300').innerHTML = sfs300.toFixed(2) + unidade;
+            document.getElementById('2sfs360').innerHTML = sfs360.toFixed(2) + unidade;
+
+            document.getElementById('2sfsProd').innerHTML = sfsProd.toFixed(2) + unidade;
+
+            //Calculos  Superfosfato triplo(SFT)
+            //transformando de P para Superfosfato Triplo(kg/ha)
+
+            var sftPlan = converterDePparaSFT(msgPlan);
+            var sft60 = converterDePparaSFT(msg60);
+            var sft120 = converterDePparaSFT(msg120);
+            var sft180 = converterDePparaSFT(msg180);
+            var sft240 = converterDePparaSFT(msg240);
+            var sft300 = converterDePparaSFT(msg300);
+            var sft360 = converterDePparaSFT(msg360);
+            var sftProd = converterDePparaSFT(msgProd);
+
+
+
+            // Exibir recomendação de SFT 
+            document.getElementById('2sftPlantio').innerHTML = sftPlan.toFixed(2) + unidade;
+
+            document.getElementById('2sft60').innerHTML = sft60.toFixed(2) + unidade;
+            document.getElementById('2sft120').innerHTML = sft120.toFixed(2) + unidade;
+            document.getElementById('2sft180').innerHTML = sft180.toFixed(2) + unidade;
+
+            document.getElementById('2sft240').innerHTML = sft240.toFixed(2) + unidade;
+            document.getElementById('2sft300').innerHTML = sft300.toFixed(2) + unidade;
+            document.getElementById('2sft360').innerHTML = sft360.toFixed(2) + unidade;
+
+            document.getElementById('2sftProd').innerHTML = sftProd.toFixed(2) + unidade;
+
+        }
+
+        function calcularPotassio2() {
+            // obter valores dos campos de entrada
+            const aluminio = parseFloat(document.getElementById('aluminio').value);
+            const calcio = parseFloat(document.getElementById('calcio').value);
+            const magnesio = parseFloat(document.getElementById('magnesio').value);
+            const argila = parseFloat(document.getElementById('argila').value);
+            const prnt = parseFloat(document.getElementById('prnt').value);
+            const p = parseFloat(document.getElementById('p').value);
+            const k = parseFloat(document.getElementById('k').value);
+
+            var ou = "&nbsp;&nbsp;&nbsp;&nbsp;ou&nbsp;&nbsp;&nbsp;&nbsp";//variavel que guarda a formatação para o "ou"
+            var unidade = " g/tourceira"
+            var solo = document.querySelector('input[name="solo"]:checked').value;
+
+
+            //Variaveis que armazenam os teores de Fósforo
+            var teor1 = 0.12;
+            var teor2 = 0.23;
+            var teor3 = 0.24;
+            var teor4 = 0.40;
+
+            // Dados recomendação de fosforo em g/tourceira
+            let kPlan = "";
+            let k60 = "";
+            let k120 = "";
+            let k180 = "";
+            let k240 = "";
+            let k300 = "";
+            let k360 = "";
+            let kProd = "";
+
+            if (p < teor1) {
+                kPlan = 0;
+                k60 = 40;
+                k120 = 80;
+                k180 = 120;
+                k240 = 150;
+                k300 = 80;
+                k360 = 80;
+                kProd = 550;
+            } else if (p >= teor1 && p <= teor2) {
+                kPlan = 0;
+                k60 = 30;
+                k120 = 60;
+                k180 = 100;
+                k240 = 120;
+                k300 = 70;
+                k360 = 70;
+                kProd = 450;
+            } else if (p >= teor3 && p <= teor4) {
+                kPlan = 0;
+                k60 = 25;
+                k120 = 50;
+                k180 = 75;
+                k240 = 100;
+                k300 = 50;
+                k360 = 50;
+                kProd = 350;
+            } else if (p > teor2) {
+                kPlan = 0;
+                k60 = 20;
+                k120 = 30;
+                k180 = 60;
+                k240 = 60;
+                k300 = 40;
+                k360 = 40;
+                kProd = 250;
+            }
+
+            // Exibir recomendação de potássio
+            document.getElementById('2potPlantio').innerHTML = kPlan.toFixed(2) + unidade;
+
+            document.getElementById('2pot60').innerHTML = k60.toFixed(2) + unidade;
+            document.getElementById('2pot120').innerHTML = k120.toFixed(2) + unidade;
+            document.getElementById('2pot180').innerHTML = k180.toFixed(2) + unidade;
+
+            document.getElementById('2pot240').innerHTML = k240.toFixed(2) + unidade;
+            document.getElementById('2pot300').innerHTML = k300.toFixed(2) + unidade;
+            document.getElementById('2pot360').innerHTML = k360.toFixed(2) + unidade;
+
+            document.getElementById('2potProd').innerHTML = kProd.toFixed(2) + unidade;
+
+
+            //Calculos tranformando sulfato de potássio(SP)
+            var spPlan = converterKParaSulfato(kPlan);
+            var sp60 = converterKParaSulfato(k60);
+            var sp120 = converterKParaSulfato(k120);
+            var sp180 = converterKParaSulfato(k180);
+            var sp240 = converterKParaSulfato(k240);
+            var sp300 = converterKParaSulfato(k300);
+            var sp360 = converterKParaSulfato(k360);
+            var spProd = converterKParaSulfato(kProd);
+
+            // Exibir recomendação de sulfato de potássio(SP)
+            document.getElementById('2sulfatoPlantio').innerHTML = spPlan.toFixed(2) + unidade;
+
+            document.getElementById('2sulfato60').innerHTML = sp60.toFixed(2) + unidade;
+            document.getElementById('2sulfato120').innerHTML = sp120.toFixed(2) + unidade;
+            document.getElementById('2sulfato180').innerHTML = sp180.toFixed(2) + unidade;
+
+            document.getElementById('2sulfato240').innerHTML = sp240.toFixed(2) + unidade;
+            document.getElementById('2sulfato300').innerHTML = sp300.toFixed(2) + unidade;
+            document.getElementById('2sulfato360').innerHTML = sp360.toFixed(2) + unidade;
+
+            document.getElementById('2sulfatoProd').innerHTML = spProd.toFixed(2) + unidade;
+
+
+
+            //Calculos cloreto de potássio(CP)
+            var cpPlan = converterKparaCloreto(kPlan);
+            var cp60 = converterKparaCloreto(k60);
+            var cp120 = converterKparaCloreto(k120);
+            var cp180 = converterKparaCloreto(k180);
+            var cp240 = converterKparaCloreto(k240);
+            var cp300 = converterKparaCloreto(k300);
+            var cp360 = converterKparaCloreto(k360);
+            var cpProd = converterKparaCloreto(kProd);
+
+
+
+            // Exibir recomendação de cloreto de potassio
+            document.getElementById('2cloretoPlantio').innerHTML = cpPlan.toFixed(2) + unidade;
+
+            document.getElementById('2cloreto60').innerHTML = cp60.toFixed(2) + unidade;
+            document.getElementById('2cloreto120').innerHTML = cp120.toFixed(2) + unidade;
+            document.getElementById('2cloreto180').innerHTML = cp180.toFixed(2) + unidade;
+
+            document.getElementById('2cloreto240').innerHTML = cp240.toFixed(2) + unidade;
+            document.getElementById('2cloreto300').innerHTML = cp300.toFixed(2) + unidade;
+            document.getElementById('2cloreto360').innerHTML = cp360.toFixed(2) + unidade;
+
+            document.getElementById('2cloretoProd').innerHTML = cpProd.toFixed(2) + unidade;
+
+        }
+
+
         function converterGparaKg(gramas) {
             var espacamento = document.querySelector('input[name="opcao"]:checked').value;
             var divisor = 1000;
@@ -1089,12 +1489,12 @@ Adaptar tudo do grupo 2
 
 
         }
-       
+
         function mostrarDivGrupo(opcao) {
             // Oculta todas as divs exceto a div de calagem
             var divGrupo1 = document.getElementById('grupo1');
             var divGrupo2 = document.getElementById('grupo2');
-            divGrupo1.style.display = 'block';
+            divGrupo1.style.display = 'none';
             divGrupo2.style.display = 'none';
         }
 
@@ -1111,7 +1511,7 @@ Adaptar tudo do grupo 2
             }
         }
 
-        
+
 
         function mostrarDivNitrogenio(opcao) {
             // Oculta todas as divs exceto a div de calagem
@@ -1167,6 +1567,34 @@ Adaptar tudo do grupo 2
                 divCloretoPotassio.style.display = 'block';
             } else {
                 divPotassio.style.display = 'block';
+            }
+        }
+
+        function verificarCampos() {
+
+            var aluminio = document.getElementById('aluminio').value;
+            var calcio = document.getElementById('calcio').value;
+            var magnesio = document.getElementById('magnesio').value;
+            var argila = document.getElementById('argila').value;
+            var prnt = document.getElementById('prnt').value;
+            var p = document.getElementById('p').value;
+            var k = document.getElementById('k').value;
+
+            if (aluminio === '' || calcio === '' || magnesio === '' || argila === '' || prnt === '' || p === '' || k === '') {
+                alert("Por favor, preencha todos os campos!");
+            } else {
+                calcularCalagem();
+                calcularNitrogenio();
+                calcularFosforo();
+                calcularPotassio();
+
+                calcularNitrogenio2();
+                calcularFosforo2();
+                calcularPotassio2();
+
+                armazenarValor();
+                mostrarDivGrupo();
+
             }
         }
 
